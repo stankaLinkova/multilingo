@@ -24,6 +24,25 @@ public class MysqlStudentDao implements StudentDao {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 
+	public List<Student> getAll() {
+		String sql = "SELECT idStudent, name, surname, email " + "FROM Student";
+
+		return jdbcTemplate.query(sql, new RowMapper<Student>() {
+
+			public Student mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Student student = new Student();
+				student.setId(rs.getLong("idStudent"));
+				student.setName(rs.getString("name"));
+				student.setSurname(rs.getString("surname"));
+				student.setEmail(rs.getString("email"));
+
+				return student;
+
+			}
+		});
+
+	}
+
 	public Student save(Student student) {
 		if (student == null)
 			return null;
@@ -39,10 +58,8 @@ public class MysqlStudentDao implements StudentDao {
 			Long id = simpleJdbcInsert.executeAndReturnKey(values).longValue();
 			student.setId(id);
 		} else {
-			String sql = "UPDATE Student SET " + "name = ?, surname = ?, e-mail = ? "
-					+ "WHERE idStudent = ?";
-			jdbcTemplate.update(sql, student.getName(), student.getSurname(), student.getEmail(),
-					 student.getId());
+			String sql = "UPDATE Student SET " + "name = ?, surname = ?, e-mail = ? " + "WHERE idStudent = ?";
+			jdbcTemplate.update(sql, student.getName(), student.getSurname(), student.getEmail(), student.getId());
 		}
 		return student;
 	}
@@ -106,14 +123,11 @@ public class MysqlStudentDao implements StudentDao {
 
 	}
 
-	
 	public void joinTheCourse(Student student, Course course) {
 		String sql = "INSERT INTO Course_has_Student (Course_idCourse, Student_idStudent) VALUES (?,?)";
 		Object[] parameters = new Object[] { course.getId(), student.getId() };
 		int[] types = new int[] { Types.INTEGER, Types.INTEGER };
 		jdbcTemplate.update(sql, parameters, types);
 	}
-
-
 
 }

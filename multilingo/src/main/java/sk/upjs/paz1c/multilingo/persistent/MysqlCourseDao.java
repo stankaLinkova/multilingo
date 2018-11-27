@@ -93,16 +93,32 @@ public class MysqlCourseDao implements CourseDao {
 		return course;
 	}
 
-	public void delete(long id) {
+	public void delete(Long id) {
 		String sql = "DELETE FROM Course WHERE idCourse = " + id;
 		jdbcTemplate.update(sql);
 		
 	}
 
-	public List<Student> getStudentsTakenTheCourse(long idStudent) {
-		//TODO find out if necessary
-		return null;
+
+	//TUTO METODU SOM SPRAVILA V SKOLE + PARAMETRE ZMEN V DAO COURSE "idCourse"
+	public List<Student> getStudentsTakenTheCourse(Long idCourse) {
+		String sql = "SELECT name, surname, e-mail FROM Student WHERE idStudent = "
+				+ "(SELECT Student_idStudent FROM Course_has_Student"
+				+ " WHERE Course_idCourse = ? ) ";
+		return jdbcTemplate.query(sql, new Object[] { idCourse }, new RowMapper<Student>() {
+
+			public Student mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Student student = new Student();
+				student.setId(rs.getLong("idStudent"));
+				student.setName(rs.getString("name"));
+				student.setSurname(rs.getString("surname"));
+				student.setEmail(rs.getString("e-mail"));
+				return student;
+
+			}
+		});
 	}
+
 
 
 }

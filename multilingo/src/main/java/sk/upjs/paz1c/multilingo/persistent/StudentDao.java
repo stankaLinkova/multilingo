@@ -9,7 +9,9 @@ import sk.upjs.paz1c.multilingo.entities.Test;
 
 
 public interface StudentDao {
-
+	
+	List<Student> getAll();
+	
 	Student save(Student student);
 
 	void delete(long id);
@@ -19,6 +21,8 @@ public interface StudentDao {
 	List<Course> getMyCourses(long idStudent);
 	
 	void joinTheCourse(Student student, Course course);
+	
+	
  
 	
 }

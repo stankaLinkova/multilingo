@@ -1,11 +1,8 @@
 package sk.upjs.paz1c.multilingo.persistent;
 
-
-
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
-
 
 public enum DaoFactory {
 	

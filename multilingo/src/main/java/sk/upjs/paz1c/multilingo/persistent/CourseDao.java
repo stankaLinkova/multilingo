@@ -12,7 +12,7 @@ public interface CourseDao {
 	
 	Course save(Course course);
 	
-	List<Student> getStudentsTakenTheCourse(long idCourse);
+	List<Student> getStudentsTakenTheCourse(Long idCourse);
 	
-	void delete(long id);
+	void delete(Long id);
 }

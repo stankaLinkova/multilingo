@@ -7,7 +7,9 @@ import sk.upjs.paz1c.multilingo.entities.School;
 import sk.upjs.paz1c.multilingo.entities.Test;
 
 public interface SchoolDao {
-
+	
+	List<School> getAll();
+	
 	School save(School school);
 
 	void delete(long id);
@@ -15,5 +17,7 @@ public interface SchoolDao {
 	List<Course> getAllMyCourses(long idSchool);
 	
 	List<Test> getAllMyTests(long idSchool);
+	
+	
 
 }
