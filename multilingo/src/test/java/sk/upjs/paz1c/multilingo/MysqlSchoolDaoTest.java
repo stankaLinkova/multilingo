@@ -10,16 +10,19 @@ import org.junit.jupiter.api.Test;
 
 import sk.upjs.paz1c.multilingo.entities.Course;
 import sk.upjs.paz1c.multilingo.entities.School;
+import sk.upjs.paz1c.multilingo.persistent.CourseDao;
 import sk.upjs.paz1c.multilingo.persistent.DaoFactory;
 import sk.upjs.paz1c.multilingo.persistent.SchoolDao;
+import sk.upjs.paz1c.multilingo.persistent.StudentDao;
+import sk.upjs.paz1c.multilingo.persistent.TestDao;
 
 class MysqlSchoolDaoTest {
 
 	private SchoolDao schoolDao = DaoFactory.INSTANCE.getSchoolDao();
+	private TestDao testDao = DaoFactory.INSTANCE.getTestDao();
+	private CourseDao courseDao = DaoFactory.INSTANCE.getCourseDao();
 	
-	
-	//TUTO TRIEDU SOM DOST PREROBILA..SKOPIRUJ SI TO!!
-	
+		
 	@Test
 	void testGetAll() {
 		assertTrue(schoolDao.getAll().size() > 1);
@@ -60,10 +63,21 @@ class MysqlSchoolDaoTest {
 		school.setName("GTA");
 		school.setAddress("Zbrojnicna 3,KE");
 		school.setEmail("gta@gta.sk");
-		
 		Long id = schoolDao.save(school).getId();
+		
+		Course course = new Course();
+		course.setLanguageTaught("English");
+		course.setTaughtIn("Slovak");
+		course.setLevel("B2");
+		course.setStartOfCourse(LocalDate.of(2018, 11, 5));
+		course.setEndOfCourse(LocalDate.of(2018, 12, 5));
+		course.setTimeOfLectures("16:30");
+		course.setSchoolId(id);
+		Long idCourse = courseDao.save(course).getId();
+		
 		assertTrue(schoolDao.getAllMyCourses(id).size() > 0);
 		schoolDao.delete(id);
+		courseDao.delete(idCourse);
 	}
 
 	@Test
@@ -72,10 +86,20 @@ class MysqlSchoolDaoTest {
 		school.setName("GTA");
 		school.setAddress("Zbrojnicna 3,KE");
 		school.setEmail("gta@gta.sk");
+		Long idSchool = schoolDao.save(school).getId();
 		
-		Long id = schoolDao.save(school).getId();
-		assertTrue(schoolDao.getAllMyTests(id).size() > 0);
-		schoolDao.delete(id);
+		sk.upjs.paz1c.multilingo.entities.Test test = new sk.upjs.paz1c.multilingo.entities.Test();
+		test.setCreatedBy("GTA");
+		test.setNumberOfQuestions(4);
+		test.setLanguage("German");
+		test.setLevel("C1");
+		test.setIdSchool(idSchool);
+		Long id = testDao.save(test).getId();
+		test.setCreatedDate(LocalDate.of(2018, 11, 27));
+		
+		assertTrue(schoolDao.getAllMyTests(idSchool).size() > 0);
+		schoolDao.delete(idSchool);
+		testDao.delete(id);
 	}
 
 }

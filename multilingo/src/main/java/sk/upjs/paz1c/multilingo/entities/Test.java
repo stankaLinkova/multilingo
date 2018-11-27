@@ -10,7 +10,6 @@ public class Test {
 	private int numberOfQuestions;
 	private String language;
 	private String level;
-	private String information;
 	private Long idSchool;
 	
 	
@@ -70,19 +69,12 @@ public class Test {
 		this.level = level;
 	}
 
-	public String getInformation() {
-		return information;
-	}
-
-	public void setInformation(String information) {
-		this.information = information;
-	}
+	
 
 	@Override
 	public String toString() {
 		return "Created by: " + createdBy + ", Date of creation: " + createdDate + ", Number of questions: "
-				+ numberOfQuestions + ", Language: " + language + ", Level: " + level 
-			    + " Information: " + information;
+				+ numberOfQuestions + ", Language: " + language + ", Level: " + level;
 	}
 
 }

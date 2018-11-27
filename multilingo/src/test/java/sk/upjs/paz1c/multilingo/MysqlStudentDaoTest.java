@@ -21,9 +21,7 @@ class MysqlStudentDaoTest {
 	private StudentDao studentDao = DaoFactory.INSTANCE.getStudentDao();
 	private CourseDao courseDao = DaoFactory.INSTANCE.getCourseDao();
 	
-	
-	//OPAT CELA PREROBENA TRIEDA ..SKOPIRUJ!!
-	
+		
 	@Test
 	void testGetAll() {
 		assertTrue(studentDao.getAll().size() > 1);

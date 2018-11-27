@@ -65,7 +65,7 @@ public class MysqlSchoolDao implements SchoolDao {
 	}
 
 	public void delete(long id) {
-		String sql = "DELETE FROM School WHERE id = " + id;
+		String sql = "DELETE FROM School WHERE idSchool = " + id;
 		jdbcTemplate.update(sql);
 
 	}
@@ -104,7 +104,7 @@ public class MysqlSchoolDao implements SchoolDao {
 
 	public List<Test> getAllMyTests(long idSchool) {
 		String sql = "SELECT idTest, created_by, created_date, " + "number_of_questions, language, level, "
-				+ "information, School_idSchool FROM Test " + "WHERE School_idSchool= ? ";
+				+ " School_idSchool FROM Test " + "WHERE School_idSchool= ? ";
 		return jdbcTemplate.query(sql, new Object[] { idSchool }, new RowMapper<Test>() {
 
 			public Test mapRow(ResultSet rs, int rowNum) throws SQLException {
