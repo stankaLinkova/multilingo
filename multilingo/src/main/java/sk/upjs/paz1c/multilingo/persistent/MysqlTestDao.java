@@ -60,16 +60,16 @@ public class MysqlTestDao implements TestDao {
 					"level", "School_idSchool");
 			Map<String,Object> values = new HashMap<String, Object>();
 			values.put("created_by",test.getCreatedBy());
-			values.put("cretaed_date",test.getCreatedDate());
+			values.put("created_date",test.getCreatedDate());
 			values.put("number_of_questions", test.getNumberOfQuestions());
-			values.put("langauge", test.getLanguage());
+			values.put("language", test.getLanguage());
 			values.put("level", test.getLevel());
 			values.put("School_idSchool", test.getIdSchool());
 			Long id = simpleJdbcInsert.executeAndReturnKey(values).longValue();
 			test.setId(id);
 		} else { 
 			String sql = "UPDATE Test SET "
-					+ "created_by = ?, cretaed_date = ?, number_of_questions = ?, language = ?, "
+					+ "created_by = ?, created_date = ?, number_of_questions = ?, language = ?, "
 					+ "level = ?, School_idSchool = ? "
 					+ "WHERE idTest = ?";
 			jdbcTemplate.update(sql, test.getCreatedBy(), test.getCreatedDate(),

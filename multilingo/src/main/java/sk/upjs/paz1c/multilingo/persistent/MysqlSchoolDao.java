@@ -72,14 +72,14 @@ public class MysqlSchoolDao implements SchoolDao {
 
 	public List<Course> getAllMyCourses(long idSchool) {
 		String sql = "SELECT idCourse, language_taught, taught_in, level, start_of_course, end_of_course, "
-				+ "time_of_lecture, information, School_id_School " + "FROM Course WHERE  School_id_School = ?)";
+				+ "time_of_lectures, information, School_idSchool " + "FROM Course WHERE  School_idSchool = ?";
 
 		return jdbcTemplate.query(sql, new Object[] { idSchool }, new RowMapper<Course>() {
 
 			public Course mapRow(ResultSet rs, int rowNum) throws SQLException {
 				Course course = new Course();
 				course.setId(rs.getLong("idCourse"));
-				course.setLanguageTaught(rs.getString("tanguage_tought"));
+				course.setLanguageTaught(rs.getString("language_taught"));
 				course.setTaughtIn(rs.getString("taught_in"));
 				course.setLevel(rs.getString("level"));
 
@@ -93,7 +93,7 @@ public class MysqlSchoolDao implements SchoolDao {
 					course.setEndOfCourse(timestamp.toLocalDateTime().toLocalDate());
 				}
 
-				course.setTimeOfLectures(rs.getString("time_of_lecture"));
+				course.setTimeOfLectures(rs.getString("time_of_lectures"));
 				course.setInformation(rs.getString("information"));
 				course.setSchoolId(rs.getLong("School_idSchool"));
 				return course;

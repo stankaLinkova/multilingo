@@ -14,12 +14,14 @@ import sk.upjs.paz1c.multilingo.entities.Student;
 import sk.upjs.paz1c.multilingo.persistent.CourseDao;
 import sk.upjs.paz1c.multilingo.persistent.DaoFactory;
 import sk.upjs.paz1c.multilingo.persistent.StudentDao;
+import sk.upjs.paz1c.multilingo.persistent.TestDao;
 
 class MysqlStudentDaoTest {
 
 	
 	private StudentDao studentDao = DaoFactory.INSTANCE.getStudentDao();
 	private CourseDao courseDao = DaoFactory.INSTANCE.getCourseDao();
+	private TestDao testDao = DaoFactory.INSTANCE.getTestDao();
 	
 		
 	@Test
@@ -61,10 +63,23 @@ class MysqlStudentDaoTest {
 		student.setName("Janko");
 		student.setSurname("Hrasko");
 		student.setEmail("jhrasko@gmail.com");
-		
 		Long id = studentDao.save(student).getId();
+		
+		Course course = new Course();
+		course.setLanguageTaught("English");
+		course.setTaughtIn("Slovak");
+		course.setLevel("B2");
+		course.setStartOfCourse(LocalDate.of(2018, 11, 5));
+		course.setEndOfCourse(LocalDate.of(2018, 12, 5));
+		course.setTimeOfLectures("16:30");
+		course.setSchoolId(1L);
+		Long idCourse = courseDao.save(course).getId();
+		
+		studentDao.joinTheCourse(student, course);
+		
 		assertTrue(studentDao.getMyCourses(id).size() > 0);
 		studentDao.delete(id);
+		courseDao.delete(idCourse);
 	}
 
 	@Test
@@ -73,10 +88,22 @@ class MysqlStudentDaoTest {
 		student.setName("Janko");
 		student.setSurname("Hrasko");
 		student.setEmail("jhrasko@gmail.com");
+	    Long id = studentDao.save(student).getId();
+	    
+	    sk.upjs.paz1c.multilingo.entities.Test test = new sk.upjs.paz1c.multilingo.entities.Test();
+		test.setCreatedBy("GTA");
+		test.setNumberOfQuestions(4);
+		test.setLanguage("German");
+		test.setLevel("C1");
+		test.setIdSchool(1L);
+		test.setCreatedDate(LocalDate.of(2018, 11, 27));
+		Long idTest = testDao.save(test).getId();
 		
-		Long id = studentDao.save(student).getId();
+		studentDao.doTheTest(student, test, LocalDate.of(2018, 11, 27), 30);
+		
 		assertTrue(studentDao.getCompletedTests(id).size() > 0);
 		studentDao.delete(id);
+		testDao.delete(idTest);
 	}
 
 	@Test

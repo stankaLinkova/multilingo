@@ -102,7 +102,7 @@ public class MysqlCourseDao implements CourseDao {
 
 	//TUTO METODU SOM SPRAVILA V SKOLE + PARAMETRE ZMEN V DAO COURSE "idCourse"
 	public List<Student> getStudentsTakenTheCourse(Long idCourse) {
-		String sql = "SELECT name, surname, e-mail FROM Student WHERE idStudent = "
+		String sql = "SELECT name, surname, email, idStudent FROM Student WHERE idStudent = "
 				+ "(SELECT Student_idStudent FROM Course_has_Student"
 				+ " WHERE Course_idCourse = ? ) ";
 		return jdbcTemplate.query(sql, new Object[] { idCourse }, new RowMapper<Student>() {
@@ -112,7 +112,7 @@ public class MysqlCourseDao implements CourseDao {
 				student.setId(rs.getLong("idStudent"));
 				student.setName(rs.getString("name"));
 				student.setSurname(rs.getString("surname"));
-				student.setEmail(rs.getString("e-mail"));
+				student.setEmail(rs.getString("email"));
 				return student;
 
 			}

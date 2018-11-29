@@ -94,8 +94,9 @@ class MysqlSchoolDaoTest {
 		test.setLanguage("German");
 		test.setLevel("C1");
 		test.setIdSchool(idSchool);
-		Long id = testDao.save(test).getId();
 		test.setCreatedDate(LocalDate.of(2018, 11, 27));
+		Long id = testDao.save(test).getId();
+		
 		
 		assertTrue(schoolDao.getAllMyTests(idSchool).size() > 0);
 		schoolDao.delete(idSchool);

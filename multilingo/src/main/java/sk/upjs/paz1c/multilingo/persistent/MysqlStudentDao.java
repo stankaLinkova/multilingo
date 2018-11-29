@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.Types;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,30 +51,30 @@ public class MysqlStudentDao implements StudentDao {
 			SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
 			simpleJdbcInsert.withTableName("Student");
 			simpleJdbcInsert.usingGeneratedKeyColumns("idStudent");
-			simpleJdbcInsert.usingColumns("name", "surname", "e-mail");
+			simpleJdbcInsert.usingColumns("name", "surname", "email");
 			Map<String, Object> values = new HashMap<String, Object>();
 			values.put("name", student.getName());
 			values.put("surname", student.getSurname());
-			values.put("e-mail", student.getEmail());
+			values.put("email", student.getEmail());
 			Long id = simpleJdbcInsert.executeAndReturnKey(values).longValue();
 			student.setId(id);
 		} else {
-			String sql = "UPDATE Student SET " + "name = ?, surname = ?, e-mail = ? " + "WHERE idStudent = ?";
+			String sql = "UPDATE Student SET " + "name = ?, surname = ?, email = ? " + "WHERE idStudent = ?";
 			jdbcTemplate.update(sql, student.getName(), student.getSurname(), student.getEmail(), student.getId());
 		}
 		return student;
 	}
 
 	public void delete(long id) {
-		String sql = "DELETE FROM Student WHERE id = " + id;
+		String sql = "DELETE FROM Student WHERE idStudent = " + id;
 		jdbcTemplate.update(sql);
 
 	}
 
 	public List<Course> getMyCourses(long idStudent) {
 		String sql = "SELECT idCourse, language_taught, taught_in, level, start_of_course, end_of_course, "
-				+ "time_of_lecture, information, School_id_School "
-				+ "FROM Course WHERE Course_idCourse IN (SELECT Course_idCourse FROM Course_has_Student "
+				+ "time_of_lectures, information, School_idSchool "
+				+ "FROM Course WHERE idCourse IN (SELECT Course_idCourse FROM Course_has_Student "
 				+ "WHERE Student_idStudent = ?)";
 
 		return jdbcTemplate.query(sql, new Object[] { idStudent }, new RowMapper<Course>() {
@@ -81,7 +82,7 @@ public class MysqlStudentDao implements StudentDao {
 			public Course mapRow(ResultSet rs, int rowNum) throws SQLException {
 				Course course = new Course();
 				course.setId(rs.getLong("idCourse"));
-				course.setLanguageTaught(rs.getString("tanguage_tought"));
+				course.setLanguageTaught(rs.getString("language_taught"));
 				course.setTaughtIn(rs.getString("taught_in"));
 				course.setLevel(rs.getString("level"));
 
@@ -95,7 +96,7 @@ public class MysqlStudentDao implements StudentDao {
 					course.setEndOfCourse(timestamp.toLocalDateTime().toLocalDate());
 				}
 
-				course.setTimeOfLectures(rs.getString("time_of_lecture"));
+				course.setTimeOfLectures(rs.getString("time_of_lectures"));
 				course.setInformation(rs.getString("information"));
 				course.setSchoolId(rs.getLong("School_idSchool"));
 				return course;
@@ -121,6 +122,13 @@ public class MysqlStudentDao implements StudentDao {
 
 		});
 
+	}
+	
+	public void doTheTest(Student student, Test test, LocalDate taken, int result) {
+		String sql = "INSERT INTO Student_has_Test (Student_idStudent, Test_idTest, taken, result) VALUES (?,?,?,?)";
+		Object[] parameters = new Object[] { student.getId(),  test.getId(), taken, result };
+		int[] types = new int[] { Types.INTEGER, Types.INTEGER, Types.DATE, Types.INTEGER };
+		jdbcTemplate.update(sql, parameters, types);
 	}
 
 	public void joinTheCourse(Student student, Course course) {
