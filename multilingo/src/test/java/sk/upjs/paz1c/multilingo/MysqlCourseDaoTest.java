@@ -82,6 +82,7 @@ class MysqlCourseDaoTest {
 			
 			studentDao.joinTheCourse(student, course);
 			int numberOfStudents = courseDao.getStudentsTakenTheCourse(idCourse).size();
+			
 			assertTrue(numberOfStudents == 1);
 			
 			courseDao.delete(idCourse);

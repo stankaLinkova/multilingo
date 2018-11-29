@@ -34,7 +34,9 @@ class MysqlQuestionDaoTest {
 		int beforeSave = questionDao.getAll().size();
 		Long id = questionDao.save(question).getId();
 		int afterSave = questionDao.getAll().size();
+		
 		assertTrue(beforeSave == afterSave - 1);
+		
 		questionDao.delete(id);
 	}
 

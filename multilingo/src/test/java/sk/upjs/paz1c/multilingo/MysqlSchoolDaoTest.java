@@ -38,7 +38,9 @@ class MysqlSchoolDaoTest {
 		int beforeSave = schoolDao.getAll().size();
 		Long id = schoolDao.save(school).getId();
 		int afterSave = schoolDao.getAll().size();
+		
 		assertTrue(beforeSave == afterSave - 1);
+		
 		schoolDao.delete(id);
 	}
 

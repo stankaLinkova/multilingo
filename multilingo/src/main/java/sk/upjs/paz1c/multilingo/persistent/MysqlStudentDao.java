@@ -23,6 +23,7 @@ public class MysqlStudentDao implements StudentDao {
 
 	public MysqlStudentDao(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
+		
 	}
 
 	public List<Student> getAll() {
