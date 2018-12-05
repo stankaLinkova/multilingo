@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import sk.upjs.paz1c.multilingo.entities.Course;
@@ -13,7 +11,6 @@ import sk.upjs.paz1c.multilingo.entities.School;
 import sk.upjs.paz1c.multilingo.persistent.CourseDao;
 import sk.upjs.paz1c.multilingo.persistent.DaoFactory;
 import sk.upjs.paz1c.multilingo.persistent.SchoolDao;
-import sk.upjs.paz1c.multilingo.persistent.StudentDao;
 import sk.upjs.paz1c.multilingo.persistent.TestDao;
 
 class MysqlSchoolDaoTest {

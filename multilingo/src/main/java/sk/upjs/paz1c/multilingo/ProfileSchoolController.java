@@ -1,15 +1,20 @@
 package sk.upjs.paz1c.multilingo;
-import java.net.URL;
-import java.util.ResourceBundle;
+import java.io.IOException;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
+@SuppressWarnings("restriction")
 public class ProfileSchoolController {
 
-
-    @FXML
+	@FXML
     private ListView<?> testsListView;
 
     @FXML
@@ -50,19 +55,64 @@ public class ProfileSchoolController {
 
     @FXML
     void initialize() {
-        assert testsListView != null : "fx:id=\"testsListView\" was not injected: check your FXML file 'profile_school_scene.fxml'.";
-        assert nameSchoolText != null : "fx:id=\"nameSchoolText\" was not injected: check your FXML file 'profile_school_scene.fxml'.";
-        assert loginSchoolText != null : "fx:id=\"loginSchoolText\" was not injected: check your FXML file 'profile_school_scene.fxml'.";
-        assert emailSchoolText != null : "fx:id=\"emailSchoolText\" was not injected: check your FXML file 'profile_school_scene.fxml'.";
-        assert removeCourseButton != null : "fx:id=\"removeCourseButton\" was not injected: check your FXML file 'profile_school_scene.fxml'.";
-        assert logoutButton != null : "fx:id=\"logoutButton\" was not injected: check your FXML file 'profile_school_scene.fxml'.";
-        assert showProfileButton != null : "fx:id=\"showProfileButton\" was not injected: check your FXML file 'profile_school_scene.fxml'.";
-        assert showCoursesButton != null : "fx:id=\"showCoursesButton\" was not injected: check your FXML file 'profile_school_scene.fxml'.";
-        assert detailCourseButton != null : "fx:id=\"detailCourseButton\" was not injected: check your FXML file 'profile_school_scene.fxml'.";
-        assert addressSchoolText != null : "fx:id=\"addressSchoolText\" was not injected: check your FXML file 'profile_school_scene.fxml'.";
-        assert removeTestButton != null : "fx:id=\"removeTestButton\" was not injected: check your FXML file 'profile_school_scene.fxml'.";
-        assert showTestsButton != null : "fx:id=\"showTestsButton\" was not injected: check your FXML file 'profile_school_scene.fxml'.";
-        assert coursesListView != null : "fx:id=\"coursesListView\" was not injected: check your FXML file 'profile_school_scene.fxml'.";
+    	showCoursesButton.setOnAction(new EventHandler<ActionEvent>() {
 
+			public void handle(ActionEvent event) {
+				CoursesSchoolController coursesSchoolController = new CoursesSchoolController();
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("courses_school_scene.fxml"));
+				fxmlLoader.setController(coursesSchoolController);
+				Parent rootPane = null;
+				try {
+					rootPane = fxmlLoader.load();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				Scene scene = new Scene(rootPane);
+				Stage stage = (Stage) showCoursesButton.getScene().getWindow();
+				stage.setTitle("MultiLingo: Courses");
+				stage.setScene(scene);
+				stage.show();
+			}
+		});
+    	
+    	showTestsButton.setOnAction(new EventHandler<ActionEvent>() {
+
+			public void handle(ActionEvent event) {
+				TestsSchoolController testsSchoolController = new TestsSchoolController();
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("tests_school_scene.fxml"));
+				fxmlLoader.setController(testsSchoolController);
+				Parent rootPane = null;
+				try {
+					rootPane = fxmlLoader.load();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				Scene scene = new Scene(rootPane);
+				Stage stage = (Stage) showTestsButton.getScene().getWindow();
+				stage.setTitle("MultiLingo: Tests");
+				stage.setScene(scene);
+				stage.show();
+			}
+		});
+    	
+    	logoutButton.setOnAction(new EventHandler<ActionEvent>() {
+
+			public void handle(ActionEvent event) {
+				SignInController signInController = new SignInController();
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("log_in_scene.fxml"));
+				fxmlLoader.setController(signInController);
+				Parent rootPane = null;
+				try {
+					rootPane = fxmlLoader.load();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				Scene scene = new Scene(rootPane);
+				Stage stage = (Stage) logoutButton.getScene().getWindow();
+				stage.setTitle("MultiLingo: Sign in");
+				stage.setScene(scene);
+				stage.show();
+			}
+		});
     }
 }

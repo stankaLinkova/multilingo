@@ -33,13 +33,13 @@ public class SingIn {
 				values[0] = rs.getString("Student_idStudent");
 				values[1] = rs.getString("School_idSchool");
 
-				if (values[0] != null || values[0] != (Integer) 0) {
+				if (values[0] != null || values[0] != 0) {
 					Student result = new Student();
 					result.setId((Long) values[0]);
 					return result;
 				}
 
-				if (values[1] != null || values[1] != (Integer) 0) {
+				if (values[1] != null || values[1] != 0) {
 					School result = new School();
 					result.setId((Long) values[0]);
 					return result;

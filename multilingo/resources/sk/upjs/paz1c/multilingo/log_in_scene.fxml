@@ -21,7 +21,7 @@
       <TextFlow layoutX="388.0" layoutY="14.0" prefHeight="49.0" prefWidth="237.0" AnchorPane.rightAnchor="16.0">
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Sign up" wrappingWidth="55.0322265625" />
-            <Hyperlink fx:id="signUpAsSchool" prefHeight="24.0" prefWidth="66.0" style="hyperlink:visited: fx-text-fill: -fx-accent;" text="as a school" />
+            <Hyperlink fx:id="signUpAsSchool" prefHeight="24.0" prefWidth="66.0" text="as a school" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="or" />
             <Hyperlink fx:id="signUpAsStudent" prefHeight="24.0" prefWidth="74.0" text="as a student" />
          </children>

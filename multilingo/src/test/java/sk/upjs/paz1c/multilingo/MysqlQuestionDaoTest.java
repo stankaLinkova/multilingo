@@ -2,11 +2,8 @@ package sk.upjs.paz1c.multilingo;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import sk.upjs.paz1c.multilingo.entities.Course;
 import sk.upjs.paz1c.multilingo.entities.Question;
 import sk.upjs.paz1c.multilingo.persistent.DaoFactory;
 import sk.upjs.paz1c.multilingo.persistent.QuestionDao;

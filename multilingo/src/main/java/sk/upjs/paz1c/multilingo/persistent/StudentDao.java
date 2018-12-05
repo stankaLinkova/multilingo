@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 import sk.upjs.paz1c.multilingo.entities.Course;
-import sk.upjs.paz1c.multilingo.entities.School;
 import sk.upjs.paz1c.multilingo.entities.Student;
 import sk.upjs.paz1c.multilingo.entities.Test;
 
