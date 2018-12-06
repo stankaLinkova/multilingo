@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 @SuppressWarnings("restriction")
@@ -114,5 +115,43 @@ public class ProfileSchoolController {
 				stage.show();
 			}
 		});
+    	
+    	detailCourseButton.setOnAction(new EventHandler<ActionEvent>() {
+
+			public void handle(ActionEvent event) {
+				CourseDetailController courseDetailController = new CourseDetailController();       
+				showModalWindow(courseDetailController, "course_detail_scene.fxml");
+			}
+		});
+    	
+    	removeCourseButton.setOnAction(new EventHandler<ActionEvent>() {
+
+			public void handle(ActionEvent event) {
+				
+			}
+		});
+    	
+    	removeTestButton.setOnAction(new EventHandler<ActionEvent>() {
+
+			public void handle(ActionEvent event) {
+				
+			}
+		});
     }
+    private void showModalWindow(Object controller, String fxml) {
+		try {
+			FXMLLoader fxmlLoader = new	FXMLLoader(getClass().getResource(fxml));
+			fxmlLoader.setController(controller);
+			Parent rootPane	= fxmlLoader.load();
+			Scene scene	= new Scene(rootPane);
+			
+			Stage dialog = new Stage();
+			dialog.setScene(scene);
+			dialog.initModality(Modality.APPLICATION_MODAL);
+			dialog.showAndWait();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

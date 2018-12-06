@@ -78,6 +78,10 @@ public class SignInController {
 		buttonSignIn.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
+//				ProfileStudentController profileStudentController = new ProfileStudentController();
+//				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("profile_student_scene.fxml"));
+//				fxmlLoader.setController(profileStudentController);
+				
 				ProfileSchoolController profileSchoolController = new ProfileSchoolController();
 				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("profile_school_scene.fxml"));
 				fxmlLoader.setController(profileSchoolController);
@@ -89,7 +93,7 @@ public class SignInController {
 				}
 				Scene scene = new Scene(rootPane);
 				Stage stage = (Stage) buttonSignIn.getScene().getWindow();
-				stage.setTitle("MultiLingo: Menu");
+				stage.setTitle("MultiLingo: Profile");
 				stage.setScene(scene);
 				stage.show();
 			}

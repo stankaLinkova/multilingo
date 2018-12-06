@@ -1,13 +1,22 @@
 package sk.upjs.paz1c.multilingo;
+import java.io.IOException;
+
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
+@SuppressWarnings("restriction")
 public class CourseDetailController {
 
-    @FXML
+	@FXML
     private Text timeOfLectureText;
 
     @FXML
@@ -19,8 +28,6 @@ public class CourseDetailController {
     @FXML
     private Text startOfCourseText;
 
-    @FXML
-    private Button closeButton;
 
     @FXML
     private Text languageTaughtText;
@@ -36,15 +43,6 @@ public class CourseDetailController {
 
     @FXML
     void initialize() {
-        assert timeOfLectureText != null : "fx:id=\"timeOfLectureText\" was not injected: check your FXML file 'course_detail_scene.fxml'.";
-        assert studentsListView != null : "fx:id=\"studentsListView\" was not injected: check your FXML file 'course_detail_scene.fxml'.";
-        assert levelText != null : "fx:id=\"levelText\" was not injected: check your FXML file 'course_detail_scene.fxml'.";
-        assert startOfCourseText != null : "fx:id=\"startOfCourseText\" was not injected: check your FXML file 'course_detail_scene.fxml'.";
-        assert closeButton != null : "fx:id=\"closeButton\" was not injected: check your FXML file 'course_detail_scene.fxml'.";
-        assert languageTaughtText != null : "fx:id=\"languageTaughtText\" was not injected: check your FXML file 'course_detail_scene.fxml'.";
-        assert taughtInText != null : "fx:id=\"taughtInText\" was not injected: check your FXML file 'course_detail_scene.fxml'.";
-        assert endOfCourseText != null : "fx:id=\"endOfCourseText\" was not injected: check your FXML file 'course_detail_scene.fxml'.";
-        assert informationText != null : "fx:id=\"informationText\" was not injected: check your FXML file 'course_detail_scene.fxml'.";
-
+    
     }
 }
