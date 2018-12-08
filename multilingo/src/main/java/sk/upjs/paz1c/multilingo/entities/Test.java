@@ -7,7 +7,7 @@ public class Test {
 	private Long id;
 	private String createdBy;
 	private LocalDate createdDate;
-	private int numberOfQuestions;
+	private Double numberOfQuestions;
 	private String language;
 	private String level;
 	private Long idSchool;
@@ -45,11 +45,11 @@ public class Test {
 		this.createdDate = createdDate;
 	}
 
-	public int getNumberOfQuestions() {
+	public double getNumberOfQuestions() {
 		return numberOfQuestions;
 	}
 
-	public void setNumberOfQuestions(int numberOfQuestions) {
+	public void setNumberOfQuestions(double numberOfQuestions) {
 		this.numberOfQuestions = numberOfQuestions;
 	}
 
