@@ -24,7 +24,7 @@ public interface StudentDao {
 	
 	void joinTheCourse(Student student, Course course);
 	
-	
+	Student getStudentByLogin(String login, String password);
  
 	
 }

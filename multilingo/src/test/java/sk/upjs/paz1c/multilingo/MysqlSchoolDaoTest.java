@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import sk.upjs.paz1c.multilingo.entities.Course;
 import sk.upjs.paz1c.multilingo.entities.School;
+import sk.upjs.paz1c.multilingo.entities.Student;
 import sk.upjs.paz1c.multilingo.persistent.CourseDao;
 import sk.upjs.paz1c.multilingo.persistent.DaoFactory;
 import sk.upjs.paz1c.multilingo.persistent.SchoolDao;
@@ -102,4 +103,19 @@ class MysqlSchoolDaoTest {
 		testDao.delete(id);
 	}
 
+	@Test
+	void getSchoolByLogin(String login, String password) {
+		
+		School school = new School();
+		school.setName("GTA");
+		school.setAddress("Zbrojnicna 3,KE");
+		school.setEmail("gta@gta.sk");
+		school.setLogin("gta");
+		school.setPassword("123");
+		
+		Long idSchool = schoolDao.save(school).getId();
+		
+		School skolaNova = schoolDao.getSchoolByLogin(school.getLogin(),school.getPassword() );
+		assertTrue(school.getId() == skolaNova.getId());
+	}
 }

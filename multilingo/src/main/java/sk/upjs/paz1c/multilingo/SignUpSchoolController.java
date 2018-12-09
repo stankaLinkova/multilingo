@@ -40,6 +40,13 @@ public class SignUpSchoolController {
 
     @FXML
     void initialize() {
+    	
+    	
+    	
+    	
+    	
+    	
+    	
     	backButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {

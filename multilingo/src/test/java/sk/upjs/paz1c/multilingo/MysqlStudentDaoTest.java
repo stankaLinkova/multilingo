@@ -130,5 +130,18 @@ class MysqlStudentDaoTest {
 		studentDao.delete(idStudent);
 		courseDao.delete(idCourse);
 	}
-
+	
+	@Test
+	void getStudentByLogin(String login, String password) {
+		Student student = new Student();
+		student.setName("Janko");
+		student.setSurname("Hrasko");
+		student.setEmail("jhrasko@gmail.com");
+		student.setLogin("hraskoj");
+		student.setPassword("123");
+		
+		Long idStudent = studentDao.save(student).getId();
+		Student studentNovy = studentDao.getStudentByLogin(student.getLogin(),student.getPassword() );
+		assertTrue(student.getId() == studentNovy.getId());
+	}
 }

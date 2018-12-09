@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
 import sk.upjs.paz1c.multilingo.entities.Course;
+import sk.upjs.paz1c.multilingo.entities.School;
 import sk.upjs.paz1c.multilingo.entities.Student;
 import sk.upjs.paz1c.multilingo.entities.Test;
 
@@ -139,4 +140,28 @@ public class MysqlStudentDao implements StudentDao {
 		jdbcTemplate.update(sql, parameters, types);
 	}
 
+	
+	
+	//TODO otestovat
+		@Override
+		public Student getStudentByLogin(String login, String password) {
+			String sql = "SELECT idStudent, name, surname, email, login FROM student WHERE login = ? and password = ?";
+			Object[] params = new Object[] {login, password};
+			return jdbcTemplate.query(sql, params, new RowMapper<Student>() {
+
+				@Override
+				public Student mapRow(ResultSet rs, int row) throws SQLException {
+					Student student = new Student();
+					student.setId(rs.getLong("idSchool"));
+					student.setName(rs.getString("name"));
+					student.setSurname(rs.getString("surname"));
+					student.setEmail(rs.getString("email"));
+					student.setLogin(rs.getString("login"));
+					
+					return student;
+				}
+			}).get(0);
+		}
+	
+	
 }

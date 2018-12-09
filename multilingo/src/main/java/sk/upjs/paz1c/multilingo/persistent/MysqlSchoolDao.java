@@ -126,5 +126,26 @@ public class MysqlSchoolDao implements SchoolDao {
 			}
 		});
 	}
+	
+	//TODO otestovat
+	@Override
+	public School getSchoolByLogin(String login, String password) {
+		String sql = "SELECT idSchool, name, address, email, login FROM school WHERE login = ? and password = ?";
+		Object[] params = new Object[] {login, password};
+		return jdbcTemplate.query(sql, params, new RowMapper<School>() {
+
+			@Override
+			public School mapRow(ResultSet rs, int row) throws SQLException {
+				School school = new School();
+				school.setId(rs.getLong("idSchool"));
+				school.setName(rs.getString("name"));
+				school.setAddress(rs.getString("Address"));
+				school.setEmail(rs.getString("email"));
+				school.setLogin(rs.getString("login"));
+				
+				return school;
+			}
+		}).get(0);
+	}
 
 }
