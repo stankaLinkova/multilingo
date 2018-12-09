@@ -11,6 +11,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import sk.upjs.paz1c.multilingo.entities.School;
 
 @SuppressWarnings("restriction")
 public class ProfileSchoolController {
@@ -54,7 +55,10 @@ public class ProfileSchoolController {
     @FXML
     private ListView<?> coursesListView;
 
-    @FXML
+    public ProfileSchoolController(School school) {
+		// TODO Auto-generated constructor stub
+	}
+	@FXML
     void initialize() {
     	showCoursesButton.setOnAction(new EventHandler<ActionEvent>() {
 

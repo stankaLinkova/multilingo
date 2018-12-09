@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
+import sk.upjs.paz1c.multilingo.entities.Student;
 
 @SuppressWarnings("restriction")
 public class TestsStudentController {
@@ -32,6 +33,8 @@ public class TestsStudentController {
 
     @FXML
     private Button showCoursesButton;
+    
+    private Student student;
 
    
 	@FXML
@@ -39,7 +42,7 @@ public class TestsStudentController {
 		showProfileButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
-				ProfileStudentController profileStudentController = new ProfileStudentController();
+				ProfileStudentController profileStudentController = new ProfileStudentController(student);
 				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("profile_student_scene.fxml"));
 				fxmlLoader.setController(profileStudentController);
 				Parent rootPane = null;

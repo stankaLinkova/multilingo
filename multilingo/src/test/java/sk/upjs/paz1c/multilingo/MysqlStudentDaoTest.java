@@ -23,7 +23,7 @@ class MysqlStudentDaoTest {
 		
 	@Test
 	void testGetAll() {
-		assertTrue(studentDao.getAll().size() > 1);
+		assertNotNull(studentDao.getAll());
 	}
 	
 	@Test
@@ -32,6 +32,8 @@ class MysqlStudentDaoTest {
 		student.setName("Janko");
 		student.setSurname("Hrasko");
 		student.setEmail("jhrasko@gmail.com");
+		student.setLogin("hraskoj5");
+		student.setPassword("1235");
 		
 		int beforeSave = studentDao.getAll().size();
 		Long id = studentDao.save(student).getId();
@@ -48,6 +50,8 @@ class MysqlStudentDaoTest {
 		student.setName("Janko");
 		student.setSurname("Hrasko");
 		student.setEmail("jhrasko@gmail.com");
+		student.setLogin("hraskoj4");
+		student.setPassword("1234");
 		
 		Long id = studentDao.save(student).getId();
 		int beforeDelete = studentDao.getAll().size();
@@ -62,6 +66,8 @@ class MysqlStudentDaoTest {
 		student.setName("Janko");
 		student.setSurname("Hrasko");
 		student.setEmail("jhrasko@gmail.com");
+		student.setLogin("hraskoj3");
+		student.setPassword("1233");
 		Long id = studentDao.save(student).getId();
 		
 		Course course = new Course();
@@ -87,6 +93,8 @@ class MysqlStudentDaoTest {
 		student.setName("Janko");
 		student.setSurname("Hrasko");
 		student.setEmail("jhrasko@gmail.com");
+		student.setLogin("hraskoj2");
+		student.setPassword("1232");
 	    Long id = studentDao.save(student).getId();
 	    
 	    sk.upjs.paz1c.multilingo.entities.Test test = new sk.upjs.paz1c.multilingo.entities.Test();
@@ -111,6 +119,8 @@ class MysqlStudentDaoTest {
 		student.setName("Janko");
 		student.setSurname("Hrasko");
 		student.setEmail("jhrasko@gmail.com");
+		student.setLogin("hraskoj1");
+		student.setPassword("1231");
 		Long idStudent = studentDao.save(student).getId();
 		
 		Course course = new Course();
@@ -132,7 +142,7 @@ class MysqlStudentDaoTest {
 	}
 	
 	@Test
-	void getStudentByLogin(String login, String password) {
+	void getStudentByLoginTest() {
 		Student student = new Student();
 		student.setName("Janko");
 		student.setSurname("Hrasko");
@@ -141,7 +151,8 @@ class MysqlStudentDaoTest {
 		student.setPassword("123");
 		
 		Long idStudent = studentDao.save(student).getId();
-		Student studentNovy = studentDao.getStudentByLogin(student.getLogin(),student.getPassword() );
-		assertTrue(student.getId() == studentNovy.getId());
+		Student studentNovy = studentDao.getStudentByLogin(student.getLogin(), student.getPassword());
+		assertEquals(student.getId(),studentNovy.getId());
+		studentDao.delete(idStudent);
 	}
 }

@@ -18,17 +18,17 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #c5d5cb;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <TextFlow layoutX="388.0" layoutY="14.0" prefHeight="49.0" prefWidth="237.0" AnchorPane.rightAnchor="16.0">
+      <TextFlow layoutX="340.0" layoutY="14.0" prefHeight="49.0" prefWidth="284.0" AnchorPane.rightAnchor="-24.0">
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Sign up" wrappingWidth="55.0322265625" />
-            <Hyperlink fx:id="signUpAsSchool" prefHeight="24.0" prefWidth="66.0" text="as a school" />
+            <Hyperlink fx:id="signUpAsSchool" prefHeight="29.0" prefWidth="86.0" text="as a school" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="or" />
-            <Hyperlink fx:id="signUpAsStudent" prefHeight="24.0" prefWidth="74.0" text="as a student" />
+            <Hyperlink fx:id="signUpAsStudent" prefHeight="29.0" prefWidth="112.0" text="as a student" />
          </children>
       </TextFlow>
-      <Label layoutX="220.0" layoutY="98.0" prefHeight="46.0" prefWidth="56.0" text="Sign in" AnchorPane.leftAnchor="220.0" AnchorPane.rightAnchor="324.0">
+      <Label layoutX="272.0" layoutY="54.0" prefHeight="46.0" prefWidth="79.0" text="Sign in" AnchorPane.leftAnchor="272.0" AnchorPane.rightAnchor="249.0">
          <font>
-            <Font size="18.0" />
+            <Font size="23.0" />
          </font>
       </Label>
       <TextField fx:id="loginTField" layoutX="219.0" layoutY="145.0" prefHeight="39.0" prefWidth="162.0" promptText="Login" AnchorPane.leftAnchor="219.0" AnchorPane.rightAnchor="218.60000000000002">
@@ -49,5 +49,7 @@
             <Font size="20.0" />
          </font>
       </Button>
+      <RadioButton fx:id="studentRadioButton" layoutX="209.0" layoutY="109.0" mnemonicParsing="false" text="Student" />
+      <RadioButton fx:id="schoolRadioButton" layoutX="311.0" layoutY="109.0" mnemonicParsing="false" text="School" />
    </children>
 </AnchorPane>

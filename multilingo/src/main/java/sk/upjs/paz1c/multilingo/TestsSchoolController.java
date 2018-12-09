@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
+import sk.upjs.paz1c.multilingo.entities.School;
 
 @SuppressWarnings("restriction")
 public class TestsSchoolController {
@@ -32,13 +33,15 @@ public class TestsSchoolController {
 
 	@FXML
 	private Button showCoursesButton;
+	
+	private School school;
 
 	@FXML
 	void initialize() {
 		showProfileButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
-				ProfileSchoolController profileSchoolController = new ProfileSchoolController();
+				ProfileSchoolController profileSchoolController = new ProfileSchoolController(school);
 				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("profile_school_scene.fxml"));
 				fxmlLoader.setController(profileSchoolController);
 				Parent rootPane = null;

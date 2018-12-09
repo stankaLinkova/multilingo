@@ -25,7 +25,7 @@ public class MysqlSchoolDao implements SchoolDao {
 
 	// DO DAO DAJ TUTO METODU, V SKOLE ROBENA
 	public List<School> getAll() {
-		String sql = "SELECT idSchool, name, Address, email " + "FROM School";
+		String sql = "SELECT idSchool, name, Address, email, login, password " + "FROM School";
 
 		return jdbcTemplate.query(sql, new RowMapper<School>() {
 
@@ -35,7 +35,9 @@ public class MysqlSchoolDao implements SchoolDao {
 				school.setName(rs.getString("name"));
 				school.setAddress(rs.getString("Address"));
 				school.setEmail(rs.getString("email"));
-
+				school.setLogin(rs.getString("login"));
+				school.setPassword(rs.getString("password"));
+				
 				return school;
 
 			}
@@ -50,16 +52,19 @@ public class MysqlSchoolDao implements SchoolDao {
 			SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
 			simpleJdbcInsert.withTableName("School");
 			simpleJdbcInsert.usingGeneratedKeyColumns("idSchool");
-			simpleJdbcInsert.usingColumns("Name", "Address", "Email");
+			simpleJdbcInsert.usingColumns("Name", "Address", "Email", "login", "password");
 			Map<String, Object> values = new HashMap<String, Object>();
 			values.put("Name", school.getName());
 			values.put("Address", school.getAddress());
 			values.put("Email", school.getEmail());
+			values.put("login", school.getLogin());
+			values.put("password", school.getPassword());
 			Long id = simpleJdbcInsert.executeAndReturnKey(values).longValue();
 			school.setId(id);
 		} else {
-			String sql = "UPDATE School SET " + "Name = ?, Address = ?, Email = ? " + "WHERE idSchool = ?";
-			jdbcTemplate.update(sql, school.getName(), school.getAddress(), school.getEmail(), school.getId());
+			String sql = "UPDATE School SET " + "Name = ?, Address = ?, Email = ?, login = ?, password = ? " + "WHERE idSchool = ?";
+			jdbcTemplate.update(sql, school.getName(), school.getAddress(), 
+					school.getEmail(), school.getLogin(), school.getPassword(), school.getId());
 		}
 		return school;
 	}
@@ -132,7 +137,7 @@ public class MysqlSchoolDao implements SchoolDao {
 	public School getSchoolByLogin(String login, String password) {
 		String sql = "SELECT idSchool, name, address, email, login FROM school WHERE login = ? and password = ?";
 		Object[] params = new Object[] {login, password};
-		return jdbcTemplate.query(sql, params, new RowMapper<School>() {
+		List<School> schools = jdbcTemplate.query(sql, params, new RowMapper<School>() {
 
 			@Override
 			public School mapRow(ResultSet rs, int row) throws SQLException {
@@ -145,7 +150,12 @@ public class MysqlSchoolDao implements SchoolDao {
 				
 				return school;
 			}
-		}).get(0);
+		});
+		if(schools.size() == 0) {
+			return null;
+		}else {
+			return schools.get(0);
+		}
 	}
 
 }

@@ -7,11 +7,19 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
+import sk.upjs.paz1c.multilingo.entities.School;
+import sk.upjs.paz1c.multilingo.entities.Student;
+import sk.upjs.paz1c.multilingo.persistent.DaoFactory;
+import sk.upjs.paz1c.multilingo.persistent.SchoolDao;
+import sk.upjs.paz1c.multilingo.persistent.StudentDao;
 
 @SuppressWarnings("restriction")
 public class SignInController {
@@ -32,7 +40,23 @@ public class SignInController {
 	private PasswordField passwordTField;
 
 	@FXML
+	private RadioButton schoolRadioButton;
+
+	@FXML
+	private RadioButton studentRadioButton;
+
+	private SchoolDao schoolDao = DaoFactory.INSTANCE.getSchoolDao();
+	private StudentDao studentDao = DaoFactory.INSTANCE.getStudentDao();
+
+	@FXML
 	void initialize() {
+
+		ToggleGroup toggleGroup = new ToggleGroup();
+
+		schoolRadioButton.setToggleGroup(toggleGroup);
+		studentRadioButton.setToggleGroup(toggleGroup);
+		toggleGroup.selectToggle(studentRadioButton);
+
 		signUpAsSchool.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
@@ -52,7 +76,7 @@ public class SignInController {
 				stage.show();
 			}
 		});
-		
+
 		signUpAsStudent.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
@@ -73,18 +97,39 @@ public class SignInController {
 				stage.show();
 			}
 		});
-		
+
 		// To do
 		buttonSignIn.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
-//				ProfileStudentController profileStudentController = new ProfileStudentController();
-//				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("profile_student_scene.fxml"));
-//				fxmlLoader.setController(profileStudentController);
-				
-				ProfileSchoolController profileSchoolController = new ProfileSchoolController();
-				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("profile_school_scene.fxml"));
-				fxmlLoader.setController(profileSchoolController);
+
+				FXMLLoader fxmlLoader = null;
+				if (studentRadioButton.isSelected()) {
+					Student student = studentDao.getStudentByLogin(loginTField.getText(), passwordTField.getText());
+					if (student != null) {
+						ProfileStudentController profileStudentController = new ProfileStudentController(student);
+						fxmlLoader = new FXMLLoader(getClass().getResource("profile_student_scene.fxml"));
+						fxmlLoader.setController(profileStudentController);
+					}
+				} else {
+					School school = schoolDao.getSchoolByLogin(loginTField.getText(), passwordTField.getText());
+					if (school != null) {
+						ProfileSchoolController profileSchoolController = new ProfileSchoolController(school);
+						fxmlLoader = new FXMLLoader(getClass().getResource("profile_school_scene.fxml"));
+						fxmlLoader.setController(profileSchoolController);
+					}
+				}
+				if (fxmlLoader == null) {
+
+					Alert alert = new Alert(Alert.AlertType.WARNING);
+					alert.setTitle("Warning");
+					alert.setHeaderText("Invalid login or password");
+					alert.setContentText(
+							"Please make sure you typed the right login, password and whether you chose the right user(Student/School).");
+					alert.showAndWait();
+					return;
+
+				}
 				Parent rootPane = null;
 				try {
 					rootPane = fxmlLoader.load();

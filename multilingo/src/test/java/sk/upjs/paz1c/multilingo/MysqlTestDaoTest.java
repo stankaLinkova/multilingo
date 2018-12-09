@@ -11,8 +11,6 @@ import sk.upjs.paz1c.multilingo.persistent.TestDao;
 
 class MysqlTestDaoTest {
 	
-	
-	
 	private TestDao testDao = DaoFactory.INSTANCE.getTestDao();
 	
 	

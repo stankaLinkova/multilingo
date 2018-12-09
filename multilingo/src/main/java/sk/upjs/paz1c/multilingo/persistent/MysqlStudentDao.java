@@ -28,7 +28,7 @@ public class MysqlStudentDao implements StudentDao {
 	}
 
 	public List<Student> getAll() {
-		String sql = "SELECT idStudent, name, surname, email " + "FROM Student";
+		String sql = "SELECT idStudent, name, surname, email, login, password " + "FROM Student";
 
 		return jdbcTemplate.query(sql, new RowMapper<Student>() {
 
@@ -38,6 +38,8 @@ public class MysqlStudentDao implements StudentDao {
 				student.setName(rs.getString("name"));
 				student.setSurname(rs.getString("surname"));
 				student.setEmail(rs.getString("email"));
+				student.setLogin(rs.getString("login"));
+				student.setPassword(rs.getString("password"));
 
 				return student;
 
@@ -53,16 +55,19 @@ public class MysqlStudentDao implements StudentDao {
 			SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
 			simpleJdbcInsert.withTableName("Student");
 			simpleJdbcInsert.usingGeneratedKeyColumns("idStudent");
-			simpleJdbcInsert.usingColumns("name", "surname", "email");
+			simpleJdbcInsert.usingColumns("name", "surname", "email", "login", "password");
 			Map<String, Object> values = new HashMap<String, Object>();
 			values.put("name", student.getName());
 			values.put("surname", student.getSurname());
 			values.put("email", student.getEmail());
+			values.put("login", student.getLogin());
+			values.put("password", student.getPassword());
 			Long id = simpleJdbcInsert.executeAndReturnKey(values).longValue();
 			student.setId(id);
 		} else {
-			String sql = "UPDATE Student SET " + "name = ?, surname = ?, email = ? " + "WHERE idStudent = ?";
-			jdbcTemplate.update(sql, student.getName(), student.getSurname(), student.getEmail(), student.getId());
+			String sql = "UPDATE Student SET " + "name = ?, surname = ?, email = ?, login = ?, password = ? " + "WHERE idStudent = ?";
+			jdbcTemplate.update(sql, student.getName(), student.getSurname(), student.getEmail(),
+					student.getLogin(), student.getPassword(), student.getId());
 		}
 		return student;
 	}
@@ -147,12 +152,12 @@ public class MysqlStudentDao implements StudentDao {
 		public Student getStudentByLogin(String login, String password) {
 			String sql = "SELECT idStudent, name, surname, email, login FROM student WHERE login = ? and password = ?";
 			Object[] params = new Object[] {login, password};
-			return jdbcTemplate.query(sql, params, new RowMapper<Student>() {
+			List<Student> students = jdbcTemplate.query(sql, params, new RowMapper<Student>() {
 
 				@Override
 				public Student mapRow(ResultSet rs, int row) throws SQLException {
 					Student student = new Student();
-					student.setId(rs.getLong("idSchool"));
+					student.setId(rs.getLong("idStudent"));
 					student.setName(rs.getString("name"));
 					student.setSurname(rs.getString("surname"));
 					student.setEmail(rs.getString("email"));
@@ -160,7 +165,12 @@ public class MysqlStudentDao implements StudentDao {
 					
 					return student;
 				}
-			}).get(0);
+			});
+			if(students.size() == 0) {
+				return null;
+			}else {
+				return students.get(0);
+			}
 		}
 	
 	

@@ -11,21 +11,59 @@ public class SchoolFxModel {
 	private StringProperty name = new SimpleStringProperty();
 	private StringProperty address = new SimpleStringProperty();
 	private StringProperty email = new SimpleStringProperty();
-
+	private StringProperty login = new SimpleStringProperty();
+	private StringProperty password = new SimpleStringProperty();
+	
 	public SchoolFxModel(School school) {
 		this.school = school;
 		setName(school.getName());
 		setAddress(school.getAddress());
 		setEmail(school.getEmail());
+		setLogin(school.getLogin());
+		setPassword(school.getPassword());
+		
 	}
 
+	public SchoolFxModel() {
+		
+	}
+	
 	public School getSchool() {
+		school = new School();
 		school.setName(getName());
 		school.setAddress(getAddress());
 		school.setEmail(getEmail());
+		school.setLogin(getLogin());
+		school.setPassword(getPassword());
 		return school;
 	}
 
+	
+	
+	public StringProperty loginProperty() {
+		return login;
+	}
+
+	public String getLogin() {
+		return login.get();
+	}
+	
+	public void setLogin(String login) {
+		this.login.set(login);
+	}
+	
+	public StringProperty passwordProperty() {
+		return password;
+	}
+
+	public String getPassword() {
+		return password.get();
+	}
+	
+	public void setPassword(String password) {
+		this.password.set(password);
+	}
+	
 	public String getEmail() {
 		return email.get();
 	}
@@ -58,7 +96,7 @@ public class SchoolFxModel {
 		this.address.set(surname);
 	}
 
-	public StringProperty AddressProperty() {
+	public StringProperty addressProperty() {
 		return address;
 	}
 }

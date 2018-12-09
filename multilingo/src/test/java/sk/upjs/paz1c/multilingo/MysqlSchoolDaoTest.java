@@ -32,6 +32,8 @@ class MysqlSchoolDaoTest {
 		school.setName("GTA");
 		school.setAddress("Zbrojnicna 3,KE");
 		school.setEmail("gta@gta.sk");
+		school.setLogin("gta4");
+		school.setPassword("1234");
 		
 		int beforeSave = schoolDao.getAll().size();
 		Long id = schoolDao.save(school).getId();
@@ -49,6 +51,8 @@ class MysqlSchoolDaoTest {
 		school.setName("GTA");
 		school.setAddress("Zbrojnicna 3,KE");
 		school.setEmail("gta@gta.sk");
+		school.setLogin("gta3");
+		school.setPassword("1233");
 		
 		Long id = schoolDao.save(school).getId();
 		int beforeDelete = schoolDao.getAll().size();
@@ -63,6 +67,8 @@ class MysqlSchoolDaoTest {
 		school.setName("GTA");
 		school.setAddress("Zbrojnicna 3,KE");
 		school.setEmail("gta@gta.sk");
+		school.setLogin("gta2");
+		school.setPassword("1232");
 		Long id = schoolDao.save(school).getId();
 		
 		Course course = new Course();
@@ -86,6 +92,8 @@ class MysqlSchoolDaoTest {
 		school.setName("GTA");
 		school.setAddress("Zbrojnicna 3,KE");
 		school.setEmail("gta@gta.sk");
+		school.setLogin("gta1");
+		school.setPassword("1231");
 		Long idSchool = schoolDao.save(school).getId();
 		
 		sk.upjs.paz1c.multilingo.entities.Test test = new sk.upjs.paz1c.multilingo.entities.Test();
@@ -104,7 +112,7 @@ class MysqlSchoolDaoTest {
 	}
 
 	@Test
-	void getSchoolByLogin(String login, String password) {
+	void getSchoolByLoginTest() {
 		
 		School school = new School();
 		school.setName("GTA");
@@ -117,5 +125,6 @@ class MysqlSchoolDaoTest {
 		
 		School skolaNova = schoolDao.getSchoolByLogin(school.getLogin(),school.getPassword() );
 		assertTrue(school.getId() == skolaNova.getId());
+		schoolDao.delete(idSchool);
 	}
 }

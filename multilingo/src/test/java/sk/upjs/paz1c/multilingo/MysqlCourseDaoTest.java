@@ -74,6 +74,8 @@ class MysqlCourseDaoTest {
 			student.setName("Janko");
 			student.setSurname("Hrasko");
 			student.setEmail("jhrasko@gmail.com");
+			student.setLogin("hraskoj6");
+			student.setPassword("1236");
 			Long idStudent = studentDao.save(student).getId();
 			
 			studentDao.joinTheCourse(student, course);
