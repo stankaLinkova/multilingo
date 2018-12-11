@@ -37,7 +37,7 @@ public class MysqlSchoolDao implements SchoolDao {
 				school.setEmail(rs.getString("email"));
 				school.setLogin(rs.getString("login"));
 				school.setPassword(rs.getString("password"));
-				
+
 				return school;
 
 			}
@@ -62,9 +62,10 @@ public class MysqlSchoolDao implements SchoolDao {
 			Long id = simpleJdbcInsert.executeAndReturnKey(values).longValue();
 			school.setId(id);
 		} else {
-			String sql = "UPDATE School SET " + "Name = ?, Address = ?, Email = ?, login = ?, password = ? " + "WHERE idSchool = ?";
-			jdbcTemplate.update(sql, school.getName(), school.getAddress(), 
-					school.getEmail(), school.getLogin(), school.getPassword(), school.getId());
+			String sql = "UPDATE School SET " + "Name = ?, Address = ?, Email = ?, login = ?, password = ? "
+					+ "WHERE idSchool = ?";
+			jdbcTemplate.update(sql, school.getName(), school.getAddress(), school.getEmail(), school.getLogin(),
+					school.getPassword(), school.getId());
 		}
 		return school;
 	}
@@ -131,29 +132,29 @@ public class MysqlSchoolDao implements SchoolDao {
 			}
 		});
 	}
-	
-	//TODO otestovat
-	@Override
+
 	public School getSchoolByLogin(String login, String password) {
 		String sql = "SELECT idSchool, name, address, email, login FROM school WHERE login = ? and password = ?";
-		Object[] params = new Object[] {login, password};
+		Object[] params = new Object[] { login, password };
 		List<School> schools = jdbcTemplate.query(sql, params, new RowMapper<School>() {
 
-			@Override
-			public School mapRow(ResultSet rs, int row) throws SQLException {
-				School school = new School();
-				school.setId(rs.getLong("idSchool"));
-				school.setName(rs.getString("name"));
-				school.setAddress(rs.getString("Address"));
-				school.setEmail(rs.getString("email"));
-				school.setLogin(rs.getString("login"));
+			public School mapRow(ResultSet rs, int rowNum) throws SQLException {
 				
-				return school;
-			}
+					School school = new School();
+					school.setId(rs.getLong("idSchool"));
+					school.setName(rs.getString("name"));
+					school.setAddress(rs.getString("Address"));
+					school.setEmail(rs.getString("email"));
+					school.setLogin(rs.getString("login"));
+
+					return school;
+				}
+
+		
 		});
-		if(schools.size() == 0) {
+		if (schools.size() == 0) {
 			return null;
-		}else {
+		} else {
 			return schools.get(0);
 		}
 	}

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #c5d5cb;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="242.0" layoutY="14.0" text="Creating a test">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Pane layoutX="63.0" layoutY="47.0" prefHeight="289.0" prefWidth="474.0" style="-fx-background-color: #c5d5cb; -fx-border-color: #000000;">
+         <children>
+            <Button fx:id="createQuestionButton" layoutX="169.0" layoutY="239.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="136.0" style="-fx-base: #e3e0cf;" text="Create question">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <TextArea fx:id="questionText" layoutX="25.0" layoutY="27.0" prefHeight="47.0" prefWidth="425.0" />
+            <Label layoutX="14.0" layoutY="2.0" text="Question:">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <GridPane layoutX="70.0" layoutY="80.0" prefHeight="152.0" prefWidth="334.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="162.20001220703125" minWidth="10.0" prefWidth="91.79998779296875" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="254.20001220703125" minWidth="10.0" prefWidth="242.20001220703125" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label text="Right answer:" />
+                  <Label text="Wrong answer:" GridPane.rowIndex="1" />
+                  <Label text="Wrong answer:" GridPane.rowIndex="2" />
+                  <Label text="Wrong answer:" GridPane.rowIndex="3" />
+                  <Label text="Wrong answer:" GridPane.rowIndex="4" />
+                  <TextField fx:id="rightAnswerText" GridPane.columnIndex="1" />
+                  <TextField fx:id="wrongAnswer1Text" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="wrongAnswer2Text" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField fx:id="wrongAnswer3Text" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <TextField fx:id="wrongAnswer4Text" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+               </children>
+            </GridPane>
+         </children>
+      </Pane>
+      <Button fx:id="createTestButton" layoutX="245.0" layoutY="348.0" mnemonicParsing="false" style="-fx-base: #e3e0cf;" text="Create test">
+         <font>
+            <Font size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button fx:id="backButton" layoutX="14.0" layoutY="350.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="54.0" style="-fx-base: #e3e0cf;" text="Back">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

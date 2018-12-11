@@ -24,7 +24,7 @@ public class MysqlStudentDao implements StudentDao {
 
 	public MysqlStudentDao(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
-		
+
 	}
 
 	public List<Student> getAll() {
@@ -65,9 +65,10 @@ public class MysqlStudentDao implements StudentDao {
 			Long id = simpleJdbcInsert.executeAndReturnKey(values).longValue();
 			student.setId(id);
 		} else {
-			String sql = "UPDATE Student SET " + "name = ?, surname = ?, email = ?, login = ?, password = ? " + "WHERE idStudent = ?";
-			jdbcTemplate.update(sql, student.getName(), student.getSurname(), student.getEmail(),
-					student.getLogin(), student.getPassword(), student.getId());
+			String sql = "UPDATE Student SET " + "name = ?, surname = ?, email = ?, login = ?, password = ? "
+					+ "WHERE idStudent = ?";
+			jdbcTemplate.update(sql, student.getName(), student.getSurname(), student.getEmail(), student.getLogin(),
+					student.getPassword(), student.getId());
 		}
 		return student;
 	}
@@ -130,10 +131,10 @@ public class MysqlStudentDao implements StudentDao {
 		});
 
 	}
-	
+
 	public void doTheTest(Student student, Test test, LocalDate taken, int result) {
 		String sql = "INSERT INTO Student_has_Test (Student_idStudent, Test_idTest, taken, result) VALUES (?,?,?,?)";
-		Object[] parameters = new Object[] { student.getId(),  test.getId(), taken, result };
+		Object[] parameters = new Object[] { student.getId(), test.getId(), taken, result };
 		int[] types = new int[] { Types.INTEGER, Types.INTEGER, Types.DATE, Types.INTEGER };
 		jdbcTemplate.update(sql, parameters, types);
 	}
@@ -145,33 +146,29 @@ public class MysqlStudentDao implements StudentDao {
 		jdbcTemplate.update(sql, parameters, types);
 	}
 
-	
-	
-	//TODO otestovat
-		@Override
-		public Student getStudentByLogin(String login, String password) {
-			String sql = "SELECT idStudent, name, surname, email, login FROM student WHERE login = ? and password = ?";
-			Object[] params = new Object[] {login, password};
-			List<Student> students = jdbcTemplate.query(sql, params, new RowMapper<Student>() {
+	public Student getStudentByLogin(String login, String password) {
+		String sql = "SELECT idStudent, name, surname, email, login FROM student WHERE login = ? and password = ?";
+		Object[] params = new Object[] { login, password };
+		List<Student> students = jdbcTemplate.query(sql, params, new RowMapper<Student>() {
 
-				@Override
-				public Student mapRow(ResultSet rs, int row) throws SQLException {
-					Student student = new Student();
-					student.setId(rs.getLong("idStudent"));
-					student.setName(rs.getString("name"));
-					student.setSurname(rs.getString("surname"));
-					student.setEmail(rs.getString("email"));
-					student.setLogin(rs.getString("login"));
-					
-					return student;
-				}
-			});
-			if(students.size() == 0) {
-				return null;
-			}else {
-				return students.get(0);
+			public Student mapRow(ResultSet rs, int rowNum) throws SQLException {
+
+				Student student = new Student();
+				student.setId(rs.getLong("idStudent"));
+				student.setName(rs.getString("name"));
+				student.setSurname(rs.getString("surname"));
+				student.setEmail(rs.getString("email"));
+				student.setLogin(rs.getString("login"));
+
+				return student;
 			}
+
+		});
+		if (students.size() == 0) {
+			return null;
+		} else {
+			return students.get(0);
 		}
-	
-	
+	}
+
 }

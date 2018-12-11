@@ -11,21 +11,53 @@ public class StudentFxModel {
 	private StringProperty name = new SimpleStringProperty();
 	private StringProperty surname = new SimpleStringProperty();
 	private StringProperty email = new SimpleStringProperty();
+	private StringProperty login = new SimpleStringProperty();
+	private StringProperty password = new SimpleStringProperty();
 	
 	public StudentFxModel(Student student) {
 		this.student = student;
 		setName(student.getName());
 		setSurname(student.getSurname());
 		setEmail(student.getEmail());
+		setLogin(student.getLogin());
+		setPassword(student.getPassword());
 	}
 	
 	public Student getStudent() {
+		student = new Student();
 		student.setName(getName());
 		student.setSurname(getSurname());
 		student.setEmail(getEmail());
+		student.setLogin(getLogin());
+		student.setPassword(getPassword());
 		return student;
 	}
 
+	
+	public StringProperty loginProperty() {
+		return login;
+	}
+
+	public String getLogin() {
+		return login.get();
+	}
+	
+	public void setLogin(String login) {
+		this.login.set(login);
+	}
+	
+	public StringProperty passwordProperty() {
+		return password;
+	}
+
+	public String getPassword() {
+		return password.get();
+	}
+	
+	public void setPassword(String password) {
+		this.password.set(password);
+	}
+	
 	public String getEmail() {
 		return email.get();
 	}

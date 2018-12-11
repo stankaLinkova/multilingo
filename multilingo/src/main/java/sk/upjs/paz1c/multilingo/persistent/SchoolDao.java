@@ -17,8 +17,10 @@ public interface SchoolDao {
 	List<Course> getAllMyCourses(long idSchool);
 	
 	List<Test> getAllMyTests(long idSchool);
-	
+
 	School getSchoolByLogin(String login, String password);
+	
+	
 	
 	
 
