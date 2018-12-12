@@ -73,8 +73,13 @@ public class Test {
 
 	@Override
 	public String toString() {
-		return "Created by: " + createdBy + ", Date of creation: " + createdDate + ", Number of questions: "
-				+ numberOfQuestions + ", Language: " + language + ", Level: " + level;
+		if(createdBy != null) {
+		return  "Language: " + language + ", Level: " + level + ", Created by: " + createdBy + ", Date of creation: " + createdDate + ", Number of questions: "
+				+ numberOfQuestions ;
+		} else {
+			return "Language: " + language + ", Level: " + level + ", Date of creation: " + createdDate + ", Number of questions: "
+					+ numberOfQuestions ;
+		}
 	}
 
 }

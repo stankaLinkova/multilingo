@@ -90,8 +90,12 @@ public class Course {
 
 	@Override
 	public String toString() {
-		return "Language: " + languageTaught + ", Taught in: " + taughtIn + ", Level: " + level + ", Start of course: "
-				+ startOfCourse + ", End of course: " + endOfCourse + ", Time of lectures: " + timeOfLectures
-				+ ", Information: " + information;
+		if(startOfCourse == null && endOfCourse == null && timeOfLectures == null && information == null) {
+			return "Language: " + languageTaught + ", Taught in: " + taughtIn + ", Level: " + level;
+		}else {
+			return "Language: " + languageTaught + ", Taught in: " + taughtIn + ", Level: " + level + ", Start of course: "
+					+ startOfCourse + ", End of course: " + endOfCourse + ", Time of lectures: " + timeOfLectures
+					+ ", Information: " + information;
+		}
 	}
 }

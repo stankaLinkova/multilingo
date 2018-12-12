@@ -77,8 +77,9 @@ public class MysqlSchoolDao implements SchoolDao {
 	}
 
 	public List<Course> getAllMyCourses(long idSchool) {
-		String sql = "SELECT idCourse, language_taught, taught_in, level, start_of_course, end_of_course, "
-				+ "time_of_lectures, information, School_idSchool " + "FROM Course WHERE  School_idSchool = ?";
+		String sql = "SELECT idCourse, language_taught, taught_in, level, start_of_course,"
+				+ "end_of_course, time_of_lectures, information,"
+				+ "School_idSchool " + "FROM Course WHERE  School_idSchool = ?";
 
 		return jdbcTemplate.query(sql, new Object[] { idSchool }, new RowMapper<Course>() {
 
@@ -109,14 +110,13 @@ public class MysqlSchoolDao implements SchoolDao {
 	}
 
 	public List<Test> getAllMyTests(long idSchool) {
-		String sql = "SELECT idTest, created_by, created_date, " + "number_of_questions, language, level, "
-				+ " School_idSchool FROM Test " + "WHERE School_idSchool= ? ";
+		String sql = "SELECT idTest, language, level, created_date, number_of_questions," 
+				+ "School_idSchool FROM Test " + "WHERE School_idSchool= ? ";
 		return jdbcTemplate.query(sql, new Object[] { idSchool }, new RowMapper<Test>() {
 
 			public Test mapRow(ResultSet rs, int rowNum) throws SQLException {
 				Test test = new Test();
-				test.setId(rs.getLong("idTest"));
-				test.setCreatedBy(rs.getString("created_by"));
+				
 
 				Timestamp timestamp = rs.getTimestamp("created_date");
 				if (timestamp != null) {
@@ -127,6 +127,7 @@ public class MysqlSchoolDao implements SchoolDao {
 				test.setLanguage(rs.getString("language"));
 				test.setLevel(rs.getString("level"));
 				test.setIdSchool(rs.getLong("School_idSchool"));
+				
 				return test;
 
 			}
@@ -134,7 +135,7 @@ public class MysqlSchoolDao implements SchoolDao {
 	}
 
 	public School getSchoolByLogin(String login, String password) {
-		String sql = "SELECT idSchool, name, address, email, login FROM school WHERE login = ? and password = ?";
+		String sql = "SELECT idSchool, name, address, email, login FROM School WHERE login = ? and password = ?";
 		Object[] params = new Object[] { login, password };
 		List<School> schools = jdbcTemplate.query(sql, params, new RowMapper<School>() {
 

@@ -2,6 +2,10 @@ package sk.upjs.paz1c.multilingo;
 
 import java.io.IOException;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -12,12 +16,21 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import sk.upjs.paz1c.multilingo.entities.School;
+import sk.upjs.paz1c.multilingo.entities.Test;
+import sk.upjs.paz1c.multilingo.persistent.DaoFactory;
+import sk.upjs.paz1c.multilingo.persistent.SchoolDao;
+import sk.upjs.paz1c.multilingo.persistent.TestDao;
 
 @SuppressWarnings("restriction")
 public class TestsSchoolController {
+	
+	private SchoolDao schoolDao = DaoFactory.INSTANCE.getSchoolDao();
+	private TestDao testDao = DaoFactory.INSTANCE.getTestDao();
+	private ObservableList<Test> tests;
+	private Test selectedTest;
 
 	@FXML
-	private ListView<?> testsListView;
+	private ListView<Test> testsListView;
 
 	@FXML
 	private Button createTestButton;
@@ -35,9 +48,32 @@ public class TestsSchoolController {
 	private Button showCoursesButton;
 	
 	private School school;
+	
+	public TestsSchoolController(School school) {
+		this.school = school;
+	}
 
 	@FXML
 	void initialize() {
+		
+		
+		tests = FXCollections.observableArrayList(testDao.getAll());
+		testsListView.setItems(tests);
+		testsListView.getSelectionModel().selectFirst();
+		selectedTest = testsListView.getSelectionModel().getSelectedItem();
+		testsListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Test>() {
+
+			public void changed(ObservableValue<? extends Test> observable, Test oldValue, Test newValue) {
+				if(newValue ==null) {
+					selectedTest = oldValue;
+				} else {
+					selectedTest = newValue;
+				}
+				
+			}
+		});
+		
+		
 		showProfileButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
@@ -61,7 +97,7 @@ public class TestsSchoolController {
 		showCoursesButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
-				CoursesSchoolController coursesSchoolController = new CoursesSchoolController();
+				CoursesSchoolController coursesSchoolController = new CoursesSchoolController(school);
 				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("courses_school_scene.fxml"));
 				fxmlLoader.setController(coursesSchoolController);
 				Parent rootPane = null;

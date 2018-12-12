@@ -113,14 +113,16 @@ public class SignInController {
 					}
 				} else {
 					School school = schoolDao.getSchoolByLogin(loginTField.getText(), passwordTField.getText());
+					System.out.println(school.getName());
 					if (school != null) {
 						ProfileSchoolController profileSchoolController = new ProfileSchoolController(school);
 						fxmlLoader = new FXMLLoader(getClass().getResource("profile_school_scene.fxml"));
 						fxmlLoader.setController(profileSchoolController);
+						System.out.println(school.getName());
 					}
 				}
 				if (fxmlLoader == null) {
-
+					System.out.println("az tu som dosla1");
 					Alert alert = new Alert(Alert.AlertType.WARNING);
 					alert.setTitle("Warning");
 					alert.setHeaderText("Invalid login or password");
@@ -132,7 +134,9 @@ public class SignInController {
 				}
 				Parent rootPane = null;
 				try {
+					System.out.println("az tu som dosla2");
 					rootPane = fxmlLoader.load();
+					System.out.println("az tu som dosla3");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

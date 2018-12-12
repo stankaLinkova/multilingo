@@ -147,7 +147,7 @@ public class MysqlStudentDao implements StudentDao {
 	}
 
 	public Student getStudentByLogin(String login, String password) {
-		String sql = "SELECT idStudent, name, surname, email, login FROM student WHERE login = ? and password = ?";
+		String sql = "SELECT idStudent, name, surname, email, login FROM Student WHERE login = ? and password = ?";
 		Object[] params = new Object[] { login, password };
 		List<Student> students = jdbcTemplate.query(sql, params, new RowMapper<Student>() {
 

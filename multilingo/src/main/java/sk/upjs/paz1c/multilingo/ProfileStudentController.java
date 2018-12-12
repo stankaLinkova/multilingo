@@ -1,6 +1,11 @@
 package sk.upjs.paz1c.multilingo;
 import java.io.IOException;
+import java.util.Arrays;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -12,14 +17,27 @@ import javafx.scene.control.ListView;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import sk.upjs.paz1c.multilingo.entities.Course;
 import sk.upjs.paz1c.multilingo.entities.Student;
+import sk.upjs.paz1c.multilingo.entities.Test;
+import sk.upjs.paz1c.multilingo.persistent.CourseDao;
+import sk.upjs.paz1c.multilingo.persistent.DaoFactory;
+import sk.upjs.paz1c.multilingo.persistent.StudentDao;
+import sk.upjs.paz1c.multilingo.persistent.TestDao;
 
 @SuppressWarnings("restriction")
 public class ProfileStudentController {
 
+	private StudentDao studentDao = DaoFactory.INSTANCE.getStudentDao();
+	private ObservableList<Course> courses;
+	private Course selectedCourse;
+	private ObservableList<Object[]> tests;
+	private Object[] selectedTest;
+	private CourseDao courseDao = DaoFactory.INSTANCE.getCourseDao();
+	private TestDao testDao = DaoFactory.INSTANCE.getTestDao();
     
 	@FXML
-    private ListView<?> showCoursesListView;
+    private ListView<Course> showCoursesListView;
 
     @FXML
     private Button showProfileButton;
@@ -34,7 +52,7 @@ public class ProfileStudentController {
     private Button logoutButton;
 
     @FXML
-    private ListView<?> showTestsListView;
+    private ListView<Object[]> showTestsListView;
 
     @FXML
     private Text loginStudentText;
@@ -54,16 +72,58 @@ public class ProfileStudentController {
     @FXML
     private Button showTestsButton;
 
+    private Student student;
+    
     public ProfileStudentController(Student student) {
-		
+		this.student = student;
 	}
 
 	@FXML
     void initialize() {
+		
+		loginStudentText.setText(student.getLogin());
+		emailStudentText.setText(student.getEmail());
+		nameSurnameStudentText.setText(student.getName() +" "+ student.getSurname());
+		
+		courses = FXCollections.observableArrayList(studentDao.getMyCourses(student.getId()));
+		showCoursesListView.setItems(courses);
+		showCoursesListView.getSelectionModel().selectFirst();
+		selectedCourse = showCoursesListView.getSelectionModel().getSelectedItem();
+		showCoursesListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Course>() {
+
+			public void changed(ObservableValue<? extends Course> observable, Course oldValue, Course newValue) {
+				selectedCourse = newValue;								
+			}
+		});
+		
+		tests = FXCollections.observableArrayList(studentDao.getCompletedTests(student.getId()));
+		showTestsListView.setItems(tests);
+		int size = tests.size();
+		System.out.println(size);
+		System.out.println(studentDao.getCompletedTests(student.getId()).get(0));
+//		String[] stringArray = Arrays.copyOf(studentDao.getCompletedTests(student.getId()).get(0), size, String[].class);
+//		SysString[] stringArray = Arrays.copyOf(studentDao.getCompletedTests(student.getId()).get(0), size, String[].class);
+//		tem.out.println(stringArray);
+		showTestsListView.getSelectionModel().selectFirst();
+		selectedTest = showTestsListView.getSelectionModel().getSelectedItem();
+		showTestsListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Object[]>() {
+
+			public void changed(ObservableValue<? extends Object[]> observable, Object[] oldValue, Object[] newValue) {
+				if(newValue ==null) {
+					selectedTest = oldValue;
+				} else {
+					selectedTest = newValue;
+				}
+				
+			}
+		});
+		
+		
+		
     	showCoursesButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
-				CoursesStudentController coursesStudentController = new CoursesStudentController();
+				CoursesStudentController coursesStudentController = new CoursesStudentController(student);
 				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("courses_student_scene.fxml"));
 				fxmlLoader.setController(coursesStudentController);
 				Parent rootPane = null;
@@ -83,7 +143,7 @@ public class ProfileStudentController {
     	showTestsButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
-				TestsStudentController testsStudentController = new TestsStudentController();
+				TestsStudentController testsStudentController = new TestsStudentController(student);
 				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("tests_student_scene.fxml"));
 				fxmlLoader.setController(testsStudentController);
 				Parent rootPane = null;
@@ -123,14 +183,17 @@ public class ProfileStudentController {
     	detailCourseButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
-				CourseDetailController courseDetailController = new CourseDetailController();       
+				CourseDetailController courseDetailController = new CourseDetailController(selectedCourse);       
 				showModalWindow(courseDetailController, "course_detail_scene.fxml");
 			}
 		});
     	
+    	//TODO odstran aj studenta z db kurzov a testov
     	removeCourseButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
+				showCoursesListView.getItems().remove(selectedCourse);
+						
 				
 			}
 		});
@@ -138,7 +201,7 @@ public class ProfileStudentController {
     	removeTestButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
-				
+				showTestsListView.getItems().remove(selectedTest);
 			}
 		});
     }

@@ -1,5 +1,11 @@
 package sk.upjs.paz1c.multilingo;
 import java.io.IOException;
+import java.util.Map;
+
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -11,13 +17,28 @@ import javafx.scene.control.ListView;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import sk.upjs.paz1c.multilingo.entities.Course;
 import sk.upjs.paz1c.multilingo.entities.School;
+import sk.upjs.paz1c.multilingo.entities.Test;
+import sk.upjs.paz1c.multilingo.persistent.CourseDao;
+import sk.upjs.paz1c.multilingo.persistent.DaoFactory;
+import sk.upjs.paz1c.multilingo.persistent.SchoolDao;
+import sk.upjs.paz1c.multilingo.persistent.TestDao;
 
 @SuppressWarnings("restriction")
 public class ProfileSchoolController {
+		
+	private SchoolDao schoolDao = DaoFactory.INSTANCE.getSchoolDao();
+	private ObservableList<Course> courses;
+	private Course selectedCourse;
+	private ObservableList<Test> tests;
+	private Test selectedTest;
+	private CourseDao courseDao = DaoFactory.INSTANCE.getCourseDao();
+	private TestDao testDao = DaoFactory.INSTANCE.getTestDao();
+
 
 	@FXML
-    private ListView<?> testsListView;
+    private ListView<Test> testsListView;
 
     @FXML
     private Text nameSchoolText;
@@ -53,17 +74,53 @@ public class ProfileSchoolController {
     private Button showTestsButton;
 
     @FXML
-    private ListView<?> coursesListView;
+    private ListView<Course> coursesListView;
 
+    
+    private School school;
+    
     public ProfileSchoolController(School school) {
-		// TODO Auto-generated constructor stub
+		this.school = school;
 	}
 	@FXML
     void initialize() {
+		
+		loginSchoolText.setText(school.getLogin());
+		emailSchoolText.setText(school.getEmail());
+		addressSchoolText.setText(school.getAddress());
+		nameSchoolText.setText(school.getName());		
+		
+		courses = FXCollections.observableArrayList(schoolDao.getAllMyCourses(school.getId()));
+		coursesListView.setItems(courses);
+		coursesListView.getSelectionModel().selectFirst();
+		selectedCourse = coursesListView.getSelectionModel().getSelectedItem();
+		coursesListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Course>() {
+
+			public void changed(ObservableValue<? extends Course> observable, Course oldValue, Course newValue) {
+				selectedCourse = newValue;								
+			}
+		});
+		
+		tests = FXCollections.observableArrayList(schoolDao.getAllMyTests(school.getId()));
+		testsListView.setItems(tests);
+		testsListView.getSelectionModel().selectFirst();
+		selectedTest = testsListView.getSelectionModel().getSelectedItem();
+		testsListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Test>() {
+
+			public void changed(ObservableValue<? extends Test> observable, Test oldValue, Test newValue) {
+				if(newValue ==null) {
+					selectedTest = oldValue;
+				} else {
+					selectedTest = newValue;
+				}
+				
+			}
+		});
+		
     	showCoursesButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
-				CoursesSchoolController coursesSchoolController = new CoursesSchoolController();
+				CoursesSchoolController coursesSchoolController = new CoursesSchoolController(school);
 				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("courses_school_scene.fxml"));
 				fxmlLoader.setController(coursesSchoolController);
 				Parent rootPane = null;
@@ -83,7 +140,7 @@ public class ProfileSchoolController {
     	showTestsButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
-				TestsSchoolController testsSchoolController = new TestsSchoolController();
+				TestsSchoolController testsSchoolController = new TestsSchoolController(school);
 				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("tests_school_scene.fxml"));
 				fxmlLoader.setController(testsSchoolController);
 				Parent rootPane = null;
@@ -123,14 +180,18 @@ public class ProfileSchoolController {
     	detailCourseButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
-				CourseDetailController courseDetailController = new CourseDetailController();       
+				CourseDetailController courseDetailController = new CourseDetailController(selectedCourse);       
 				showModalWindow(courseDetailController, "course_detail_scene.fxml");
+				
 			}
 		});
     	
     	removeCourseButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
+				courseDao.delete(selectedCourse.getId());
+				coursesListView.getItems().remove(selectedCourse);
+				
 				
 			}
 		});
@@ -138,7 +199,8 @@ public class ProfileSchoolController {
     	removeTestButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
-				
+				testDao.delete(selectedTest.getId());
+				testsListView.getItems().remove(selectedTest);
 			}
 		});
     }

@@ -23,6 +23,10 @@ public class StudentFxModel {
 		setPassword(student.getPassword());
 	}
 	
+	public StudentFxModel() {
+		
+	}
+	
 	public Student getStudent() {
 		student = new Student();
 		student.setName(getName());

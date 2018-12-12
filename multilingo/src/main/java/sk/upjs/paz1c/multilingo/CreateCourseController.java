@@ -36,15 +36,7 @@ public class CreateCourseController {
 
     @FXML
     void initialize() {
-        assert endOfCourseDatePicker != null : "fx:id=\"endOfCourseDatePicker\" was not injected: check your FXML file 'create_course_scene.fxml'.";
-        assert startOfCourseDatePicker != null : "fx:id=\"startOfCourseDatePicker\" was not injected: check your FXML file 'create_course_scene.fxml'.";
-        assert levelText != null : "fx:id=\"levelText\" was not injected: check your FXML file 'create_course_scene.fxml'.";
-        assert backButton != null : "fx:id=\"backButton\" was not injected: check your FXML file 'create_course_scene.fxml'.";
-        assert languageTaughtText != null : "fx:id=\"languageTaughtText\" was not injected: check your FXML file 'create_course_scene.fxml'.";
-        assert taughtInText != null : "fx:id=\"taughtInText\" was not injected: check your FXML file 'create_course_scene.fxml'.";
-        assert timeOfLecturesText != null : "fx:id=\"timeOfLecturesText\" was not injected: check your FXML file 'create_course_scene.fxml'.";
-        assert createCourseButton != null : "fx:id=\"createCourseButton\" was not injected: check your FXML file 'create_course_scene.fxml'.";
-        assert informationText != null : "fx:id=\"informationText\" was not injected: check your FXML file 'create_course_scene.fxml'.";
-
+        
+    	
     }
 }
