@@ -78,6 +78,18 @@ public class MysqlStudentDao implements StudentDao {
 		jdbcTemplate.update(sql);
 
 	}
+	
+	public void deleteCourse(long id) {
+		String sql = "DELETE FROM Course_has_Student WHERE Student_idStudent = " + id;
+		jdbcTemplate.update(sql);
+
+	}
+	
+	public void deleteTest(long id) {
+		String sql = "DELETE FROM Student_has_Test WHERE Student_idStudent = " + id;
+		jdbcTemplate.update(sql);
+
+	}
 
 	public List<Course> getMyCourses(long idStudent) {
 		String sql = "SELECT idCourse, language_taught, taught_in, level, start_of_course, end_of_course, "

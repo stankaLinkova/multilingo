@@ -116,7 +116,7 @@ public class MysqlSchoolDao implements SchoolDao {
 
 			public Test mapRow(ResultSet rs, int rowNum) throws SQLException {
 				Test test = new Test();
-				
+				test.setId(rs.getLong("idTest"));
 
 				Timestamp timestamp = rs.getTimestamp("created_date");
 				if (timestamp != null) {

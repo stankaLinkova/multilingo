@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.stage.Modality;
@@ -63,7 +64,7 @@ public class CoursesStudentController {
 	void initialize() {
 		
 		
-		courses = FXCollections.observableArrayList(studentDao.getMyCourses(student.getId()));
+		courses = FXCollections.observableArrayList(courseDao.getAll());
 		coursesListView.setItems(courses);
 		coursesListView.getSelectionModel().selectFirst();
 		selectedCourse = coursesListView.getSelectionModel().getSelectedItem();
@@ -145,7 +146,12 @@ public class CoursesStudentController {
 		joinTheCourseButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
-
+				studentDao.joinTheCourse(student, selectedCourse);
+				Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+				alert.setTitle("Information");
+				alert.setHeaderText("SUCCESS");
+				alert.setContentText("You have successfully applied for the course.");
+				alert.showAndWait();
 			}
 		});
 	}

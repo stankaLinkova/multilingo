@@ -19,6 +19,7 @@ public class CourseFxModel {
 	private ObjectProperty<LocalDate> endOfCourse = new SimpleObjectProperty<LocalDate>();
 	private StringProperty timeOfLectures = new SimpleStringProperty();
 	private StringProperty information = new SimpleStringProperty();
+	private Long idSchool;
 
 	CourseFxModel(Course course){
 		this.course = course;
@@ -29,6 +30,12 @@ public class CourseFxModel {
 		setEndOfCourse(course.getEndOfCourse());
 		setTimeOfLectures(course.getTimeOfLectures());
 		setInformation(course.getInformation());
+		setIdSchool(course.getSchoolId());
+		
+	}
+	
+	public CourseFxModel() {
+		
 	}
 	
 	public void setCourse(Course course) {
@@ -39,6 +46,7 @@ public class CourseFxModel {
 		setEndOfCourse(course.getEndOfCourse());
 		setTimeOfLectures(course.getTimeOfLectures());
 		setInformation(course.getInformation());
+		setIdSchool(course.getSchoolId());
 	}
 
 	public Course getCourse() {
@@ -50,7 +58,19 @@ public class CourseFxModel {
 		c.setEndOfCourse(getEndOfCourse());
 		c.setTimeOfLectures(getTimeOfLectures());
 		c.setInformation(getInformation());
+		c.setSchoolId(getIdSchool());
+		
 		return c;
+	}
+	
+	
+
+	public Long getIdSchool() {
+		return idSchool;
+	}
+
+	public void setIdSchool(Long idSchool) {
+		this.idSchool = idSchool;
 	}
 
 	public String getLanguageTaught() {

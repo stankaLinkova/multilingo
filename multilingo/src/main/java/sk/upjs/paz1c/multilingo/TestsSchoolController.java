@@ -27,8 +27,7 @@ public class TestsSchoolController {
 	private SchoolDao schoolDao = DaoFactory.INSTANCE.getSchoolDao();
 	private TestDao testDao = DaoFactory.INSTANCE.getTestDao();
 	private ObservableList<Test> tests;
-	private Test selectedTest;
-
+	
 	@FXML
 	private ListView<Test> testsListView;
 
@@ -59,19 +58,6 @@ public class TestsSchoolController {
 		
 		tests = FXCollections.observableArrayList(testDao.getAll());
 		testsListView.setItems(tests);
-		testsListView.getSelectionModel().selectFirst();
-		selectedTest = testsListView.getSelectionModel().getSelectedItem();
-		testsListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Test>() {
-
-			public void changed(ObservableValue<? extends Test> observable, Test oldValue, Test newValue) {
-				if(newValue ==null) {
-					selectedTest = oldValue;
-				} else {
-					selectedTest = newValue;
-				}
-				
-			}
-		});
 		
 		
 		showProfileButton.setOnAction(new EventHandler<ActionEvent>() {

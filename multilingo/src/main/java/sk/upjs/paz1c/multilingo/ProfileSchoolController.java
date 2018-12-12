@@ -85,6 +85,8 @@ public class ProfileSchoolController {
 	@FXML
     void initialize() {
 		
+		System.out.println(selectedTest);
+		
 		loginSchoolText.setText(school.getLogin());
 		emailSchoolText.setText(school.getEmail());
 		addressSchoolText.setText(school.getAddress());
@@ -94,6 +96,7 @@ public class ProfileSchoolController {
 		coursesListView.setItems(courses);
 		coursesListView.getSelectionModel().selectFirst();
 		selectedCourse = coursesListView.getSelectionModel().getSelectedItem();
+		System.out.println(selectedTest);
 		coursesListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Course>() {
 
 			public void changed(ObservableValue<? extends Course> observable, Course oldValue, Course newValue) {
@@ -108,12 +111,8 @@ public class ProfileSchoolController {
 		testsListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Test>() {
 
 			public void changed(ObservableValue<? extends Test> observable, Test oldValue, Test newValue) {
-				if(newValue ==null) {
-					selectedTest = oldValue;
-				} else {
 					selectedTest = newValue;
-				}
-				
+							
 			}
 		});
 		
@@ -199,6 +198,7 @@ public class ProfileSchoolController {
     	removeTestButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
+				System.out.println(selectedTest);
 				testDao.delete(selectedTest.getId());
 				testsListView.getItems().remove(selectedTest);
 			}

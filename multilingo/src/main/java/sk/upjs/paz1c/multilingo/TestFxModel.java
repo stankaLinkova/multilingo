@@ -19,6 +19,11 @@ public class TestFxModel {
 	private DoubleProperty numberOfQuestions = new SimpleDoubleProperty();
 	private StringProperty language = new SimpleStringProperty();
 	private StringProperty level = new SimpleStringProperty();
+	private Long idSchool;
+	
+	public TestFxModel() {
+		
+	}
 	
 	public TestFxModel(Test test) {
 		this.test = test;
@@ -27,6 +32,7 @@ public class TestFxModel {
 		setNumberOfQuestions(test.getNumberOfQuestions());
 		setLanguage(test.getLanguage());
 		setLevel(test.getLevel());
+		setIdSchool(test.getIdSchool());
 	}
 	
 	public void setTest(Test test) {
@@ -35,6 +41,7 @@ public class TestFxModel {
 		setNumberOfQuestions(test.getNumberOfQuestions());
 		setLanguage(test.getLanguage());
 		setLevel(test.getLevel());
+		setIdSchool(getIdSchool());
 	}
 	
 	public Test getTest() {
@@ -44,9 +51,20 @@ public class TestFxModel {
 		t.setNumberOfQuestions(getNumberOfQuestions());
 		t.setLanguage(getLanguage());
 		t.setLevel(getLevel());
+		t.setIdSchool(getIdSchool());
 		return t;
 	}
 	
+	
+	
+	public Long getIdSchool() {
+		return idSchool;
+	}
+
+	public void setIdSchool(Long idSchool) {
+		this.idSchool = idSchool;
+	}
+
 	public String getCreatedBy() {
 		return createdBy.get();
 	}

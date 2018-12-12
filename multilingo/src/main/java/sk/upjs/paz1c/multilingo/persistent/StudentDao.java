@@ -25,6 +25,10 @@ public interface StudentDao {
 	void joinTheCourse(Student student, Course course);
 	
 	Student getStudentByLogin(String login, String password);
+	
+	public void deleteCourse(long id);
+	
+	public void deleteTest(long id);
  
 	
 }

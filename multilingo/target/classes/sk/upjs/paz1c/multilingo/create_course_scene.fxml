@@ -67,13 +67,7 @@
             <DatePicker fx:id="endOfCourseDatePicker" prefHeight="26.0" prefWidth="246.0" promptText="DD.MM.YYYY" GridPane.rowIndex="3" />
          </children>
       </GridPane>
-      <Button fx:id="backButton" layoutX="14.0" layoutY="350.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="54.0" style="-fx-base: #e3e0cf;" text="Back">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-         <font>
-            <Font size="14.0" />
-         </font></Button>
+      
       <TextArea fx:id="informationText" layoutX="36.0" layoutY="265.0" prefHeight="47.0" prefWidth="527.0" promptText="Any details, requirements, etc." AnchorPane.leftAnchor="36.0" />
       <Button fx:id="createCourseButton" layoutX="232.0" layoutY="337.0" mnemonicParsing="false" style="-fx-base: #e3e0cf;" text="Create course">
          <font>

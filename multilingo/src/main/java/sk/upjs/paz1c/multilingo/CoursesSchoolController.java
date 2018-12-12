@@ -138,7 +138,8 @@ public class CoursesSchoolController {
     	createCourseButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
-				
+				CreateCourseController createCourseController = new CreateCourseController(school);       
+				showModalWindow(createCourseController, "create_course_scene.fxml");
 			}
 		});
     	

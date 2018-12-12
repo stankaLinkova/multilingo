@@ -16,6 +16,7 @@ import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import sk.upjs.paz1c.multilingo.entities.Course;
 import sk.upjs.paz1c.multilingo.entities.Student;
+import sk.upjs.paz1c.multilingo.entities.Test;
 import sk.upjs.paz1c.multilingo.persistent.CourseDao;
 import sk.upjs.paz1c.multilingo.persistent.DaoFactory;
 import sk.upjs.paz1c.multilingo.persistent.StudentDao;
@@ -25,13 +26,13 @@ import sk.upjs.paz1c.multilingo.persistent.TestDao;
 public class TestsStudentController {
 	
 	private StudentDao studentDao = DaoFactory.INSTANCE.getStudentDao();
-	private ObservableList<Object[]> tests;
-	private Object[] selectedTest;
+	private ObservableList<Test> tests;
+	private Test selectedTest;
 	private TestDao testDao = DaoFactory.INSTANCE.getTestDao();
 
 
     @FXML
-    private ListView<Object[]> testsListView;
+    private ListView<Test> testsListView;
 
     @FXML
     private Button takeATestButton;
@@ -56,25 +57,15 @@ public class TestsStudentController {
 	@FXML
     void initialize() {
 		
-		tests = FXCollections.observableArrayList(studentDao.getCompletedTests(student.getId()));
-		testsListView.setItems(tests);
-		int size = tests.size();
-		System.out.println(size);
-		System.out.println(studentDao.getCompletedTests(student.getId()).get(0));
-//		String[] stringArray = Arrays.copyOf(studentDao.getCompletedTests(student.getId()).get(0), size, String[].class);
-//		SysString[] stringArray = Arrays.copyOf(studentDao.getCompletedTests(student.getId()).get(0), size, String[].class);
-//		tem.out.println(stringArray);
+		tests = FXCollections.observableArrayList(testDao.getAll());
+		testsListView.setItems(tests);	
 		testsListView.getSelectionModel().selectFirst();
 		selectedTest = testsListView.getSelectionModel().getSelectedItem();
-		testsListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Object[]>() {
+		testsListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Test>() {
 
-			public void changed(ObservableValue<? extends Object[]> observable, Object[] oldValue, Object[] newValue) {
-				if(newValue ==null) {
-					selectedTest = oldValue;
-				} else {
+			public void changed(ObservableValue<? extends Test> observable, Test oldValue, Test newValue) {
 					selectedTest = newValue;
-				}
-				
+							
 			}
 		});
 		

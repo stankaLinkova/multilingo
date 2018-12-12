@@ -99,8 +99,8 @@ public class ProfileStudentController {
 		tests = FXCollections.observableArrayList(studentDao.getCompletedTests(student.getId()));
 		showTestsListView.setItems(tests);
 		int size = tests.size();
-		System.out.println(size);
-		System.out.println(studentDao.getCompletedTests(student.getId()).get(0));
+//		System.out.println(size);
+//		System.out.println(studentDao.getCompletedTests(student.getId()).get(0));
 //		String[] stringArray = Arrays.copyOf(studentDao.getCompletedTests(student.getId()).get(0), size, String[].class);
 //		SysString[] stringArray = Arrays.copyOf(studentDao.getCompletedTests(student.getId()).get(0), size, String[].class);
 //		tem.out.println(stringArray);
@@ -193,6 +193,7 @@ public class ProfileStudentController {
 
 			public void handle(ActionEvent event) {
 				showCoursesListView.getItems().remove(selectedCourse);
+				studentDao.deleteCourse(student.getId());
 						
 				
 			}
@@ -202,6 +203,7 @@ public class ProfileStudentController {
 
 			public void handle(ActionEvent event) {
 				showTestsListView.getItems().remove(selectedTest);
+				studentDao.deleteTest(student.getId());
 			}
 		});
     }
