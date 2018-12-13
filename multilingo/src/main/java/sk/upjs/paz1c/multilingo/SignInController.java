@@ -1,6 +1,8 @@
 package sk.upjs.paz1c.multilingo;
 
 import java.io.IOException;
+
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -15,11 +17,13 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
+import sk.upjs.paz1c.multilingo.business.GeneralManager;
 import sk.upjs.paz1c.multilingo.entities.School;
 import sk.upjs.paz1c.multilingo.entities.Student;
 import sk.upjs.paz1c.multilingo.persistent.DaoFactory;
 import sk.upjs.paz1c.multilingo.persistent.SchoolDao;
 import sk.upjs.paz1c.multilingo.persistent.StudentDao;
+
 
 @SuppressWarnings("restriction")
 public class SignInController {
@@ -105,14 +109,14 @@ public class SignInController {
 
 				FXMLLoader fxmlLoader = null;
 				if (studentRadioButton.isSelected()) {
-					Student student = studentDao.getStudentByLogin(loginTField.getText(), passwordTField.getText());
+					Student student = studentDao.getStudentByLogin(loginTField.getText(), GeneralManager.hashPassword(passwordTField.getText()));
 					if (student != null) {
 						ProfileStudentController profileStudentController = new ProfileStudentController(student);
 						fxmlLoader = new FXMLLoader(getClass().getResource("profile_student_scene.fxml"));
 						fxmlLoader.setController(profileStudentController);
 					}
 				} else {
-					School school = schoolDao.getSchoolByLogin(loginTField.getText(), passwordTField.getText());
+					School school = schoolDao.getSchoolByLogin(loginTField.getText(), GeneralManager.hashPassword(passwordTField.getText()));
 					if (school != null) {
 						ProfileSchoolController profileSchoolController = new ProfileSchoolController(school);
 						fxmlLoader = new FXMLLoader(getClass().getResource("profile_school_scene.fxml"));

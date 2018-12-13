@@ -12,8 +12,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import sk.upjs.paz1c.multilingo.business.GeneralManager;
 import sk.upjs.paz1c.multilingo.business.SignUpAsSchoolManager;
 import sk.upjs.paz1c.multilingo.business.SignUpAsStudentManager;
+import sk.upjs.paz1c.multilingo.entities.School;
+import sk.upjs.paz1c.multilingo.entities.Student;
 import sk.upjs.paz1c.multilingo.persistent.DaoFactory;
 import sk.upjs.paz1c.multilingo.persistent.SchoolDao;
 import sk.upjs.paz1c.multilingo.persistent.StudentDao;
@@ -98,7 +101,9 @@ public class SignUpStudentController {
 					return;
 				}
 				
-				studentDao.save(studentModel.getStudent());
+				Student student = studentModel.getStudent();
+				student.setPassword(GeneralManager.hashPassword(student.getPassword()));
+				studentDao.save(student);
 				SignInController signInController = new SignInController();
 				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("log_in_scene.fxml"));
 				fxmlLoader.setController(signInController);

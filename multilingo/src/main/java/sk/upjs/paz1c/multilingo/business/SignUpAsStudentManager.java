@@ -1,5 +1,8 @@
 package sk.upjs.paz1c.multilingo.business;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import sk.upjs.paz1c.multilingo.entities.Student;

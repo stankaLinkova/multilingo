@@ -104,9 +104,12 @@ class MysqlStudentDaoTest {
 		test.setCreatedDate(LocalDate.of(2018, 11, 27));
 		Long idTest = testDao.save(test).getId();
 
+		
+		int before = studentDao.getCompletedTests(id).size(); 
 		studentDao.doTheTest(student, test, LocalDate.of(2018, 11, 27), 30);
-
-		assertTrue(studentDao.getCompletedTests(id).size() > 0);
+		int after = studentDao.getCompletedTests(id).size(); 
+		
+		assertEquals(before,after-1);
 		studentDao.delete(id);
 		testDao.delete(idTest);
 	}

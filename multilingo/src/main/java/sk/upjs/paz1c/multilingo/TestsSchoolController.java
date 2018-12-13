@@ -102,7 +102,21 @@ public class TestsSchoolController {
 		createTestButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
-
+				CreateTestController createTestController = new CreateTestController(school);
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("create_test_scene.fxml"));
+				fxmlLoader.setController(createTestController);
+				Parent rootPane = null;
+				try {
+					rootPane = fxmlLoader.load();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				Scene scene = new Scene(rootPane);
+				Stage stage = (Stage)createTestButton.getScene().getWindow();
+				stage.setTitle("Creating a test");
+				stage.setScene(scene);
+				stage.show();
+		
 			}
 		});
 
