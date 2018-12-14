@@ -1,5 +1,7 @@
 package sk.upjs.paz1c.multilingo;
+
 import java.io.IOException;
+import java.util.List;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -15,6 +17,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import sk.upjs.paz1c.multilingo.entities.Course;
+import sk.upjs.paz1c.multilingo.entities.Question;
 import sk.upjs.paz1c.multilingo.entities.Student;
 import sk.upjs.paz1c.multilingo.entities.Test;
 import sk.upjs.paz1c.multilingo.persistent.CourseDao;
@@ -24,53 +27,51 @@ import sk.upjs.paz1c.multilingo.persistent.TestDao;
 
 @SuppressWarnings("restriction")
 public class TestsStudentController {
-	
+
 	private StudentDao studentDao = DaoFactory.INSTANCE.getStudentDao();
 	private ObservableList<Test> tests;
 	private Test selectedTest;
 	private TestDao testDao = DaoFactory.INSTANCE.getTestDao();
 
-
-    @FXML
-    private ListView<Test> testsListView;
-
-    @FXML
-    private Button takeATestButton;
-
-    @FXML
-    private Button showTestsButton;
-
-    @FXML
-    private Button logoutButton;
-
-    @FXML
-    private Button showProfileButton;
-
-    @FXML
-    private Button showCoursesButton;
-    
-    private Student student;
-
-   public TestsStudentController(Student student) {
-	this.student = student;
-}
 	@FXML
-    void initialize() {
-		
+	private ListView<Test> testsListView;
+
+	@FXML
+	private Button takeATestButton;
+
+	@FXML
+	private Button showTestsButton;
+
+	@FXML
+	private Button logoutButton;
+
+	@FXML
+	private Button showProfileButton;
+
+	@FXML
+	private Button showCoursesButton;
+
+	private Student student;
+
+	public TestsStudentController(Student student) {
+		this.student = student;
+	}
+
+	@FXML
+	void initialize() {
+
 		tests = FXCollections.observableArrayList(testDao.getAll());
-		testsListView.setItems(tests);	
+		testsListView.setItems(tests);
 		testsListView.getSelectionModel().selectFirst();
 		selectedTest = testsListView.getSelectionModel().getSelectedItem();
 		testsListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Test>() {
 
 			public void changed(ObservableValue<? extends Test> observable, Test oldValue, Test newValue) {
-					selectedTest = newValue;
-							
+				selectedTest = newValue;
+
 			}
 		});
-		
-		
-		
+
 		showProfileButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
@@ -90,7 +91,7 @@ public class TestsStudentController {
 				stage.show();
 			}
 		});
-		
+
 		showCoursesButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
@@ -110,8 +111,8 @@ public class TestsStudentController {
 				stage.show();
 			}
 		});
-    	
-    	logoutButton.setOnAction(new EventHandler<ActionEvent>() {
+
+		logoutButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
 				SignInController signInController = new SignInController();
@@ -130,12 +131,15 @@ public class TestsStudentController {
 				stage.show();
 			}
 		});
-    	
-    	takeATestButton.setOnAction(new EventHandler<ActionEvent>() {
+
+		takeATestButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
-				
-					TakingTestController takingTestController = new TakingTestController(selectedTest,null);
+
+				List<Question> questions = testDao.getAllMyQuestions(selectedTest.getId());
+
+				for (Question q : questions) {
+					TakingTestController takingTestController = new TakingTestController(selectedTest, q, student);
 					FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("take_a_test_scene.fxml"));
 					fxmlLoader.setController(takingTestController);
 					Parent rootPane = null;
@@ -145,11 +149,13 @@ public class TestsStudentController {
 						e.printStackTrace();
 					}
 					Scene scene = new Scene(rootPane);
-					Stage stage = (Stage) takeATestButton.getScene().getWindow();
+					Stage stage = (Stage)takeATestButton.getScene().getWindow();
 					stage.setTitle("MultiLingo: Taking a test");
 					stage.setScene(scene);
 					stage.show();
 				}
-			});
-    }
+
+			}
+		});
+	}
 }
