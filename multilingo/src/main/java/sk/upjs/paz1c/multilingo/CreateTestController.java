@@ -1,4 +1,5 @@
 package sk.upjs.paz1c.multilingo;
+
 import java.io.IOException;
 
 import javafx.event.ActionEvent;
@@ -7,42 +8,38 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import sk.upjs.paz1c.multilingo.entities.Course;
+import javafx.util.converter.NumberStringConverter;
+import sk.upjs.paz1c.multilingo.entities.Question;
 import sk.upjs.paz1c.multilingo.entities.School;
 import sk.upjs.paz1c.multilingo.entities.Test;
-import sk.upjs.paz1c.multilingo.persistent.CourseDao;
 import sk.upjs.paz1c.multilingo.persistent.DaoFactory;
 import sk.upjs.paz1c.multilingo.persistent.TestDao;
 
-
-
-@SuppressWarnings("restriction")
 public class CreateTestController {
-	
-	
+
+	private School school;
 	private TestDao testDao;
 	private TestFxModel testModel;
-	private School school;
+	
 
     @FXML
-    private TextField wrongAnswer2Text;
+    private TextField createdByText;
 
     @FXML
-    private TextField rightAnswerText;
+    private TextField numberOfQuestionsText;
 
     @FXML
-    private TextField wrongAnswer1Text;
+    private TextField languageText;
 
     @FXML
-    private TextField wrongAnswer4Text;
+    private TextField levelText;
 
     @FXML
-    private TextField wrongAnswer3Text;
+    private DatePicker createdDateDatePicker;
 
     @FXML
     private Button createTestButton;
@@ -50,43 +47,32 @@ public class CreateTestController {
     @FXML
     private Button backButton;
 
-    @FXML
-    private TextArea questionText;
-
-    @FXML
-    private Button createQuestionButton;
-
     public CreateTestController(School school) {
+		this.school = school;
 		testDao = DaoFactory.INSTANCE.getTestDao();
 		testModel = new TestFxModel();
-		this.school = school;
 	}
-    
     
     @FXML
     void initialize() {
     	
+    	createdByText.textProperty().bindBidirectional(testModel.createdByProperty());
+    	languageText.textProperty().bindBidirectional(testModel.languageProperty());
+    	levelText.textProperty().bindBidirectional(testModel.levelProperty());
+    	createdDateDatePicker.valueProperty().bindBidirectional(testModel.createdDateProperty());
+    	numberOfQuestionsText.textProperty().bindBidirectional(testModel.numberOfQuestionsProperty(), new NumberStringConverter());
+    	testModel.setIdSchool(school.getId());
+    	
+    	
+    	
     	createTestButton.setOnAction(new EventHandler<ActionEvent>() {
 
-    		public void handle(ActionEvent event) {
-				Test test = testModel.getTest();
-				testDao.save(test);
-				Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-				alert.setTitle("Success");
-				alert.setHeaderText("Test created");
-				alert.setContentText("You have successfully created the test.");
-				alert.showAndWait();
-			}
-		});
-    	
-    	
-    	
-    	createQuestionButton.setOnAction(new EventHandler<ActionEvent>() {
-
 			public void handle(ActionEvent event) {
-				CreateTestController createTestController = new CreateTestController(school);
-				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("create_test_scene.fxml"));
-				fxmlLoader.setController(createTestController);
+				Test test = testModel.getTest();
+				testDao.save(test);				
+				CreateQuestionController createQuestionController = new CreateQuestionController(test, school);
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("create_question_scene.fxml"));
+				fxmlLoader.setController(createQuestionController);
 				Parent rootPane = null;
 				try {
 					rootPane = fxmlLoader.load();
@@ -94,12 +80,13 @@ public class CreateTestController {
 					e.printStackTrace();
 				}
 				Scene scene = new Scene(rootPane);
-				Stage stage = (Stage)createQuestionButton.getScene().getWindow();
+				Stage stage = (Stage)createTestButton.getScene().getWindow();
 				stage.setTitle("Creating a test");
 				stage.setScene(scene);
 				stage.show();
 			}
 		});
+    	
     	
     	
     	backButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -121,6 +108,5 @@ public class CreateTestController {
 				stage.show();
 			}
 		});
-    	
     }
 }

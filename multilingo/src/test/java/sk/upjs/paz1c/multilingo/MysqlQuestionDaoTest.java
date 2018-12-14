@@ -16,6 +16,16 @@ class MysqlQuestionDaoTest {
 	
 	@Test
 	void testGetAll() {
+		
+		Question question = new Question();
+		question.setTask("Translate : dog");
+		question.setRightAnswer("pes");
+		question.setWrongAnswer1("macka");
+		question.setWrongAnswer2("kuriatko");
+		question.setWrongAnswer3("kohutik");
+		question.setIdTest(1L);
+		 questionDao.save(question);
+		
 		assertTrue(questionDao.getAll().size() > 0);
 	}
 

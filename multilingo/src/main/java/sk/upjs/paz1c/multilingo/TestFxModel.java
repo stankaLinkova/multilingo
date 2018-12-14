@@ -35,24 +35,15 @@ public class TestFxModel {
 		setIdSchool(test.getIdSchool());
 	}
 	
-	public void setTest(Test test) {
-		setCreatedBy(test.getCreatedBy());
-		setCreatedDate(test.getCreatedDate());
-		setNumberOfQuestions(test.getNumberOfQuestions());
-		setLanguage(test.getLanguage());
-		setLevel(test.getLevel());
-		setIdSchool(getIdSchool());
-	}
-	
 	public Test getTest() {
-		Test t = new Test();
-		t.setCreatedBy(getCreatedBy());
-		t.setCreatedDate(getCreatedDate());
-		t.setNumberOfQuestions(getNumberOfQuestions());
-		t.setLanguage(getLanguage());
-		t.setLevel(getLevel());
-		t.setIdSchool(getIdSchool());
-		return t;
+		test = new Test();
+		test.setCreatedBy(getCreatedBy());
+		test.setCreatedDate(getCreatedDate());
+		test.setNumberOfQuestions(getNumberOfQuestions());
+		test.setLanguage(getLanguage());
+		test.setLevel(getLevel());
+		test.setIdSchool(getIdSchool());
+		return test;
 	}
 	
 	
@@ -107,7 +98,7 @@ public class TestFxModel {
 	public void setLevel(String level) {
 		this.level.set(level);
 	}
-	public StringProperty nameProperty() {
+	public StringProperty levelProperty() {
 		return level;
 	}
 }

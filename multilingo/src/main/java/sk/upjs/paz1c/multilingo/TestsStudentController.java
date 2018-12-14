@@ -135,7 +135,21 @@ public class TestsStudentController {
 
 			public void handle(ActionEvent event) {
 				
-			}
-		});
+					TakingTestController takingTestController = new TakingTestController(selectedTest,null);
+					FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("take_a_test_scene.fxml"));
+					fxmlLoader.setController(takingTestController);
+					Parent rootPane = null;
+					try {
+						rootPane = fxmlLoader.load();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					Scene scene = new Scene(rootPane);
+					Stage stage = (Stage) takeATestButton.getScene().getWindow();
+					stage.setTitle("MultiLingo: Taking a test");
+					stage.setScene(scene);
+					stage.show();
+				}
+			});
     }
 }

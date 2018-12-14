@@ -38,29 +38,19 @@ public class CourseFxModel {
 		
 	}
 	
-	public void setCourse(Course course) {
-		setLanguageTaught(course.getLanguageTaught());
-		setTaughtIn(course.getTaughtIn());
-		setLevel(course.getLevel());
-		setStartOfCourse(course.getStartOfCourse());
-		setEndOfCourse(course.getEndOfCourse());
-		setTimeOfLectures(course.getTimeOfLectures());
-		setInformation(course.getInformation());
-		setIdSchool(course.getSchoolId());
-	}
 
 	public Course getCourse() {
-		Course c = new Course();
-		c.setLanguageTaught(getLanguageTaught());
-		c.setTaughtIn(getTaughtIn());
-		c.setLevel(getLevel());
-		c.setStartOfCourse(getStartOfCourse());
-		c.setEndOfCourse(getEndOfCourse());
-		c.setTimeOfLectures(getTimeOfLectures());
-		c.setInformation(getInformation());
-		c.setSchoolId(getIdSchool());
+		course = new Course();
+		course.setLanguageTaught(getLanguageTaught());
+		course.setTaughtIn(getTaughtIn());
+		course.setLevel(getLevel());
+		course.setStartOfCourse(getStartOfCourse());
+		course.setEndOfCourse(getEndOfCourse());
+		course.setTimeOfLectures(getTimeOfLectures());
+		course.setInformation(getInformation());
+		course.setSchoolId(getIdSchool());
 		
-		return c;
+		return course;
 	}
 	
 	

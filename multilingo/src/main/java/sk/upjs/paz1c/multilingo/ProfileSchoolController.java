@@ -85,7 +85,6 @@ public class ProfileSchoolController {
 	@FXML
     void initialize() {
 		
-		System.out.println(selectedTest);
 		
 		loginSchoolText.setText(school.getLogin());
 		emailSchoolText.setText(school.getEmail());
@@ -96,7 +95,6 @@ public class ProfileSchoolController {
 		coursesListView.setItems(courses);
 		coursesListView.getSelectionModel().selectFirst();
 		selectedCourse = coursesListView.getSelectionModel().getSelectedItem();
-		System.out.println(selectedTest);
 		coursesListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Course>() {
 
 			public void changed(ObservableValue<? extends Course> observable, Course oldValue, Course newValue) {
