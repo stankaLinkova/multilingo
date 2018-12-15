@@ -57,6 +57,8 @@ public class CreateTestController {
     void initialize() {
     	
     	createdByText.textProperty().bindBidirectional(testModel.createdByProperty());
+    	createdByText.setText(school.getName());
+    	createdByText.setEditable(false);
     	languageText.textProperty().bindBidirectional(testModel.languageProperty());
     	levelText.textProperty().bindBidirectional(testModel.levelProperty());
     	createdDateDatePicker.valueProperty().bindBidirectional(testModel.createdDateProperty());

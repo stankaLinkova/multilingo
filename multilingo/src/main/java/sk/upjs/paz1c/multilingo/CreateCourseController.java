@@ -84,6 +84,21 @@ public class CreateCourseController {
 				alert.setHeaderText("Course created");
 				alert.setContentText("You have successfully created the course.");
 				alert.showAndWait();
+				
+				CoursesSchoolController coursesSchoolController = new CoursesSchoolController(school);
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("courses_school_scene.fxml"));
+				fxmlLoader.setController(coursesSchoolController);
+				Parent rootPane = null;
+				try {
+					rootPane = fxmlLoader.load();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				Scene scene = new Scene(rootPane);
+				Stage stage = (Stage) createCourseButton.getScene().getWindow();
+				stage.setTitle("MultiLingo: Courses");
+				stage.setScene(scene);
+				stage.show();
 			}
 		});
     	

@@ -131,6 +131,7 @@ public class SignInController {
 					Alert alert = new Alert(Alert.AlertType.WARNING);
 					alert.setTitle("Warning");
 					alert.setHeaderText("Invalid login or password");
+					alert.setHeight(alert.getHeight()*2);
 					alert.setContentText(
 							"Please make sure you typed the right login, password and whether you chose the right user(Student/School).");
 					alert.showAndWait();

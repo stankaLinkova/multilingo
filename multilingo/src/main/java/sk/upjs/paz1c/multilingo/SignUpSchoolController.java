@@ -93,6 +93,7 @@ public class SignUpSchoolController {
 					Alert alert = new Alert(Alert.AlertType.WARNING);
 					alert.setTitle("Warning");
 					alert.setHeaderText("Invalid values");
+					alert.setHeight(alert.getHeight()*1.3);
 					alert.setContentText("Possible problems:\n- Your login already exists or your passwords don't match\n- You probably didn't fill every field.");
 					alert.showAndWait();
 					return;
