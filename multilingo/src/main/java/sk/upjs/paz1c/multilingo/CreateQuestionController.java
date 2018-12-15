@@ -9,9 +9,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import sk.upjs.paz1c.multilingo.business.CreateQuestionManager;
 import sk.upjs.paz1c.multilingo.entities.Course;
 import sk.upjs.paz1c.multilingo.entities.Question;
 import sk.upjs.paz1c.multilingo.entities.School;
@@ -31,10 +33,15 @@ public class CreateQuestionController {
 	private School school;
 	private QuestionDao questionDao;
 	private QuestionFxModel questionModel;
+	private int counterOfQuestions;
+	private CreateQuestionManager manager;
+	private TestDao testDao;
 
     @FXML
     private TextField wrongAnswer2Text;
 
+    @FXML
+    private Label questionCounterLabel;
     @FXML
     private TextField rightAnswerText;
 
@@ -47,8 +54,6 @@ public class CreateQuestionController {
     @FXML
     private TextField wrongAnswer3Text;
 
-    @FXML
-    private Button createTestButton;
 
     @FXML
     private Button backButton;
@@ -64,6 +69,9 @@ public class CreateQuestionController {
 		questionModel = new QuestionFxModel();
 		this.test = test;
 		this.school = school;
+		counterOfQuestions = 1;
+		manager = new CreateQuestionManager();
+		testDao = DaoFactory.INSTANCE.getTestDao();
 	}
     
     
@@ -78,49 +86,34 @@ public class CreateQuestionController {
     	wrongAnswer3Text.textProperty().bindBidirectional(questionModel.getWrongAnswer3Property());
     	wrongAnswer4Text.textProperty().bindBidirectional(questionModel.getWrongAnswer4Property());
     	questionModel.setIdTest(test.getId());
-    	
-   
-    	
-    	
-    	createTestButton.setOnAction(new EventHandler<ActionEvent>() {
-
-    		public void handle(ActionEvent event) {
-    			Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-				alert.setTitle("Success");
-				alert.setHeaderText("Test created");
-				alert.setContentText("You have successfully created the test.");
-				alert.showAndWait();
-				
-			}
-		});
-    	
-    	
-    	
+    	questionCounterLabel.setText("1" + "/" + test.getNumberOfQuestions());
+    
     	createQuestionButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
-				System.out.println(questionModel.getTask());
 				Question question = questionModel.getQuestion();
-				System.out.println(questionModel.getQuestion());
-				questionDao.save(question);
-				System.out.println(questionModel.getTask());
-				
-				
-				
-				CreateQuestionController createQuestionController = new CreateQuestionController(test, school);
-				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("create_question_scene.fxml"));
-				fxmlLoader.setController(createQuestionController);
-				Parent rootPane = null;
-				try {
-					rootPane = fxmlLoader.load();
-				} catch (IOException e) {
-					e.printStackTrace();
+				if(!manager.everyFieldFilled(question)) {
+					Alert alert = new Alert(Alert.AlertType.WARNING);
+					alert.setTitle("Warning");
+					alert.setHeaderText("Wrong filling");
+					alert.setContentText("Make sure you filled all of the fields.");
+					alert.showAndWait();
+					return;
+					
 				}
-				Scene scene = new Scene(rootPane);
-				Stage stage = (Stage)createQuestionButton.getScene().getWindow();
-				stage.setTitle("Creating a test");
-				stage.setScene(scene);
-				stage.show();
+				questionDao.save(question);
+				questionText.setText("");
+				rightAnswerText.setText("");
+				wrongAnswer1Text.setText("");
+				wrongAnswer2Text.setText("");
+				wrongAnswer3Text.setText("");
+				wrongAnswer4Text.setText("");
+				counterOfQuestions++;
+				questionCounterLabel.setText(counterOfQuestions + "/" + test.getNumberOfQuestions());
+				if(counterOfQuestions == test.getNumberOfQuestions() + 1) {
+					manager.testCreated(backButton, school);
+				}
+				
 			}
 		});
     	
@@ -128,6 +121,7 @@ public class CreateQuestionController {
     	backButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
+				testDao.delete(test.getId());
 				TestsSchoolController testsSchoolController = new TestsSchoolController(school);
 				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("tests_school_scene.fxml"));
 				fxmlLoader.setController(testsSchoolController);

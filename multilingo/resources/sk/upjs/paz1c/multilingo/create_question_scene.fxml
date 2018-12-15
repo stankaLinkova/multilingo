@@ -60,16 +60,10 @@
                   <TextField fx:id="wrongAnswer4Text" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                </children>
             </GridPane>
+            <Label fx:id="questionCounterLabel" layoutX="404.0" layoutY="250.0" />
          </children>
       </Pane>
-      <Button fx:id="createTestButton" layoutX="245.0" layoutY="348.0" mnemonicParsing="false" style="-fx-base: #e3e0cf;" text="Create test">
-         <font>
-            <Font size="18.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
+      
       <Button fx:id="backButton" layoutX="14.0" layoutY="350.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="54.0" style="-fx-base: #e3e0cf;" text="Back">
          <cursor>
             <Cursor fx:constant="HAND" />

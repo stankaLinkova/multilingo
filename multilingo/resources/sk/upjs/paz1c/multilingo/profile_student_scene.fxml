@@ -128,15 +128,7 @@
          <font>
             <Font size="16.0" />
          </font>
-      </Button>
-      <Button fx:id="removeTestButton" layoutX="526.0" layoutY="465.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="93.0" style="-fx-base: #e3e0cf;" text="Remove" AnchorPane.bottomAnchor="14.600000000000001">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-         <font>
-            <Font size="16.0" />
-         </font>
-      </Button>
+      </Button>   
       <Button fx:id="detailCourseButton" layoutX="307.0" layoutY="465.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="93.0" style="-fx-base: #e3e0cf;" text="Detail">
          <cursor>
             <Cursor fx:constant="HAND" />

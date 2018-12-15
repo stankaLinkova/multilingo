@@ -136,10 +136,7 @@ public class TestsStudentController {
 
 			public void handle(ActionEvent event) {
 
-				List<Question> questions = testDao.getAllMyQuestions(selectedTest.getId());
-
-				for (Question q : questions) {
-					TakingTestController takingTestController = new TakingTestController(selectedTest, q, student);
+					TakingTestController takingTestController = new TakingTestController(selectedTest, student);
 					FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("take_a_test_scene.fxml"));
 					fxmlLoader.setController(takingTestController);
 					Parent rootPane = null;
@@ -153,8 +150,6 @@ public class TestsStudentController {
 					stage.setTitle("MultiLingo: Taking a test");
 					stage.setScene(scene);
 					stage.show();
-				}
-
 			}
 		});
 	}

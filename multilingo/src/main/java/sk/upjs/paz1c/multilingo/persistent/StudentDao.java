@@ -16,7 +16,7 @@ public interface StudentDao {
 
 	void delete(long id);
 
-	List<Object[]> getCompletedTests(long idStudent);
+	List<String> getCompletedTests(long idStudent);
 
 	List<Course> getMyCourses(long idStudent);
 	
@@ -27,8 +27,7 @@ public interface StudentDao {
 	Student getStudentByLogin(String login, String password);
 	
 	public void deleteCourse(long id);
-	
-	public void deleteTest(long id);
+
  
 	
 }

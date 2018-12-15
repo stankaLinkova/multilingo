@@ -187,36 +187,6 @@ class MysqlStudentDaoTest {
 		courseDao.delete(idCourse);
 
 	}
-
-	@Test
-	void testDeleteTest() {
-		
-		Student student = new Student();
-		student.setName("Janko");
-		student.setSurname("Hrasko");
-		student.setEmail("jhrasko@gmail.com");
-		student.setLogin("hraskoj2");
-		student.setPassword("1232");
-		Long id = studentDao.save(student).getId();
-
-		sk.upjs.paz1c.multilingo.entities.Test test = new sk.upjs.paz1c.multilingo.entities.Test();
-		test.setCreatedBy("GTA");
-		test.setNumberOfQuestions(4);
-		test.setLanguage("German");
-		test.setLevel("C1");
-		test.setIdSchool(1L);
-		test.setCreatedDate(LocalDate.of(2018, 11, 27));
-		Long idTest = testDao.save(test).getId();
-		studentDao.doTheTest(student, test, LocalDate.of(2018, 11, 27), 30);
-
-		
-		int beforeDelete = studentDao.getCompletedTests(id).size();
-		studentDao.deleteTest(idTest);
-		int afterDelete = studentDao.getCompletedTests(id).size();
-		assertEquals(beforeDelete,afterDelete + 1);
-		studentDao.delete(id);
-		courseDao.delete(idTest);
-	}
 	
 	@Test
 	void testDoTheTest() {

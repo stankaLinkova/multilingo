@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.Types;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -85,11 +86,6 @@ public class MysqlStudentDao implements StudentDao {
 
 	}
 	
-	public void deleteTest(long id) {
-		String sql = "DELETE FROM Student_has_Test WHERE Test_idTest = ?";
-		jdbcTemplate.update(sql,id);
-
-	}
 
 	public List<Course> getMyCourses(long idStudent) {
 		String sql = "SELECT idCourse, language_taught, taught_in, level, start_of_course, end_of_course, "
@@ -125,19 +121,19 @@ public class MysqlStudentDao implements StudentDao {
 		});
 	}
 
-	public List<Object[]> getCompletedTests(long idStudent) {
+	public List<String> getCompletedTests(long idStudent) {
 		String sql = "SELECT sht.taken, sht.result, t.language, t.level " + "FROM Student_has_Test as sht "
 				+ "JOIN Test as t ON t.idTest = sht.Test_idTest " + "WHERE sht.Student_idStudent = ? ";
-		return jdbcTemplate.query(sql, new Object[] { idStudent }, new RowMapper<Object[]>() {
+		return jdbcTemplate.query(sql, new Object[] { idStudent }, new RowMapper<String>() {
 
-			public Object[] mapRow(ResultSet rs, int rowNum) throws SQLException {
+			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
 				Object[] values = new Object[4];
 				values[0] = rs.getTimestamp("sht.taken").toLocalDateTime().toLocalDate();
-				values[1] = rs.getInt("sht.result");
+				values[1] = rs.getInt("sht.result") + "%";
 				values[2] = rs.getString("t.language");
 				values[3] = rs.getString("t.level");
 
-				return values;
+				return Arrays.toString(values);
 			}
 
 		});

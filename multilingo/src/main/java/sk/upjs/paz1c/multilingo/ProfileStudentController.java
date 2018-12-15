@@ -31,8 +31,8 @@ public class ProfileStudentController {
 	private StudentDao studentDao = DaoFactory.INSTANCE.getStudentDao();
 	private ObservableList<Course> courses;
 	private Course selectedCourse;
-	private ObservableList<Object[]> tests;
-	private Object[] selectedTest;
+	private ObservableList<String> tests;
+	private String selectedTest;
 	private CourseDao courseDao = DaoFactory.INSTANCE.getCourseDao();
 	private TestDao testDao = DaoFactory.INSTANCE.getTestDao();
     
@@ -46,13 +46,10 @@ public class ProfileStudentController {
     private Text emailStudentText;
 
     @FXML
-    private Button removeTestButton;
-
-    @FXML
     private Button logoutButton;
 
     @FXML
-    private ListView<Object[]> showTestsListView;
+    private ListView<String> showTestsListView;
 
     @FXML
     private Text loginStudentText;
@@ -106,9 +103,9 @@ public class ProfileStudentController {
 //		tem.out.println(stringArray);
 		showTestsListView.getSelectionModel().selectFirst();
 		selectedTest = showTestsListView.getSelectionModel().getSelectedItem();
-		showTestsListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Object[]>() {
+		showTestsListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
 
-			public void changed(ObservableValue<? extends Object[]> observable, Object[] oldValue, Object[] newValue) {
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 				if(newValue ==null) {
 					selectedTest = oldValue;
 				} else {
@@ -198,15 +195,7 @@ public class ProfileStudentController {
 				
 			}
 		});
-    	
-    	removeTestButton.setOnAction(new EventHandler<ActionEvent>() {
-
-			public void handle(ActionEvent event) {
-				showTestsListView.getItems().remove(selectedTest);
-				studentDao.deleteTest(student.getId());
-			}
-		});
-    }
+	}
     
     private void showModalWindow(Object controller, String fxml) {
 		try {
