@@ -23,7 +23,7 @@ public class MysqlSchoolDao implements SchoolDao {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 
-	// DO DAO DAJ TUTO METODU, V SKOLE ROBENA
+ //pomocna pri testoch
 	public List<School> getAll() {
 		String sql = "SELECT idSchool, name, Address, email, login, password " + "FROM School";
 
@@ -76,6 +76,7 @@ public class MysqlSchoolDao implements SchoolDao {
 
 	}
 
+	//na profil skoly
 	public List<Course> getAllMyCourses(long idSchool) {
 		String sql = "SELECT idCourse, language_taught, taught_in, level, start_of_course,"
 				+ "end_of_course, time_of_lectures, information,"
@@ -109,6 +110,7 @@ public class MysqlSchoolDao implements SchoolDao {
 		});
 	}
 
+	// na profil skoly
 	public List<Test> getAllMyTests(long idSchool) {
 		String sql = "SELECT idTest, language, level, created_date, number_of_questions," 
 				+ "School_idSchool FROM Test " + "WHERE School_idSchool= ? ";
@@ -133,7 +135,9 @@ public class MysqlSchoolDao implements SchoolDao {
 			}
 		});
 	}
-
+	
+	
+	// aby sme pri prihlaseni vedeli, ktorej skoly profil mame zobrazit
 	public School getSchoolByLogin(String login, String password) {
 		String sql = "SELECT idSchool, name, address, email, login FROM School WHERE login = ? and password = ?";
 		Object[] params = new Object[] { login, password };

@@ -85,7 +85,6 @@ public class SignUpSchoolController {
 			}
 		});
     	
-    	// To do
     	createAccountButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {

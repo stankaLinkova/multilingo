@@ -14,6 +14,7 @@ public class App extends Application
         launch(args);
     }
 
+    //zaciatocna scena
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		SignInController mainController	= new SignInController();            

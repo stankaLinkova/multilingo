@@ -55,12 +55,14 @@ public class SignInController {
 	@FXML
 	void initialize() {
 
+		// toggleGroup aby mohlo byt iba jedno zaskrtnute
 		ToggleGroup toggleGroup = new ToggleGroup();
 
 		schoolRadioButton.setToggleGroup(toggleGroup);
 		studentRadioButton.setToggleGroup(toggleGroup);
 		toggleGroup.selectToggle(studentRadioButton);
 
+		
 		signUpAsSchool.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
@@ -102,12 +104,14 @@ public class SignInController {
 			}
 		});
 
-		// To do
+		
 		buttonSignIn.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
 
 				FXMLLoader fxmlLoader = null;
+				//overujeme ci je student alebo skola, aby sme vedeli zobrazit profil 
+				//a prehladavat databazu na login a heslo 
 				if (studentRadioButton.isSelected()) {
 					Student student = studentDao.getStudentByLogin(loginTField.getText(), GeneralManager.hashPassword(passwordTField.getText()));
 					if (student != null) {

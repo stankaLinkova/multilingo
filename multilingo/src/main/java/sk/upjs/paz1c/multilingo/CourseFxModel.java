@@ -11,6 +11,8 @@ import sk.upjs.paz1c.multilingo.entities.Course;
 @SuppressWarnings("restriction")
 public class CourseFxModel {
 	
+	//fxmodel kurzu, ktory vytvori a nasetuje hodnoty zo scen
+	
 	private Course course;
 	private StringProperty languageTaught = new SimpleStringProperty();
 	private StringProperty taughtIn = new SimpleStringProperty();

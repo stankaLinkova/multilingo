@@ -165,7 +165,6 @@ public class CoursesSchoolController {
 			dialog.initModality(Modality.APPLICATION_MODAL);
 			dialog.showAndWait();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

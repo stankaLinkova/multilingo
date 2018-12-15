@@ -13,15 +13,17 @@ import sk.upjs.paz1c.multilingo.entities.Question;
 
 public class TakingTestManager {
 
+	//kontrola spravnosti
 	public boolean checkAnswer(String rightAnswer, RadioButton selectedAnswer) {
 		return rightAnswer.equals(selectedAnswer.getText());
 	}
 
+	//vypisanie do sceny hodnoty danej otazky
 	public void handleQuestion(Question question, RadioButton firstAnswerRButton,
 			RadioButton secondAnswerRButton, RadioButton thirdAnswerRButton,
 			RadioButton fourthAnswerRButton, RadioButton fifthAnswerRButton, TextArea questionText) {
 	
-		
+		//naplnenie listu
 		List<RadioButton> answers = new ArrayList<RadioButton>();
 		answers.add(firstAnswerRButton);
 		answers.add(secondAnswerRButton);
@@ -29,8 +31,10 @@ public class TakingTestManager {
 		answers.add(fourthAnswerRButton);
 		answers.add(fifthAnswerRButton);
 		
+		//randomizacia odpovedi
 		Collections.shuffle(answers);
 		
+		//naplnenie lablov pri radiobuttonoch
 		answers.get(0).setText(question.getRightAnswer());
 		answers.get(1).setText(question.getWrongAnswer1());
 		answers.get(2).setText(question.getWrongAnswer2());

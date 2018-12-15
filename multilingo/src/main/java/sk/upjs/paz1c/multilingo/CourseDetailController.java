@@ -67,6 +67,8 @@ public class CourseDetailController {
 	@FXML
     void initialize() {
 		
+		
+		//iba prepojenie s textfieldami a hodnotami kurzu
 		timeOfLectureText.setText(course.getTimeOfLectures());
 		levelText.setText(course.getLevel());
 		
@@ -80,7 +82,7 @@ public class CourseDetailController {
 		taughtInText.setText(course.getTaughtIn());
 		informationText.setText(course.getInformation());
 		
-		
+		//vypisanie studentov
 		students = FXCollections.observableArrayList(courseDao.getStudentsTakenTheCourse(course.getId()));
 		studentsListView.setItems(students);
 		

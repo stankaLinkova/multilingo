@@ -89,6 +89,7 @@ public class MysqlTestDao implements TestDao {
 		
 	}
 
+	// aby student mohol robit otazky, ktore su v tom teste, nie ine
 	public List<Question> getAllMyQuestions(Long idTest) {
 		String sql = "SELECT idQuestion, task, right_answer, wrong_answer_1, wrong_answer_2, "
 				+ "wrong_answer_3, wrong_answer_4 FROM Question WHERE Test_idTest = ? ";

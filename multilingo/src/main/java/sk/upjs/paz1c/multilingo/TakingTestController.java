@@ -97,39 +97,51 @@ public class TakingTestController {
     @FXML
     void initialize() {
     	
+    	//jedna skupina - moze byt iba jedno vybrate
     	toggleGroup = new ToggleGroup();
     	firstAnswerRButton.setToggleGroup(toggleGroup);
     	secondAnswerRButton.setToggleGroup(toggleGroup);
     	thirdAnswerRButton.setToggleGroup(toggleGroup);
     	fourthAnswerRButton.setToggleGroup(toggleGroup);
     	fifthAnswerRButton.setToggleGroup(toggleGroup);
+    	
+    	//defaulte vyberieme prve, inak hadze vynimku
     	toggleGroup.selectToggle(firstAnswerRButton);
  
     	selectedAnswer = firstAnswerRButton;
+    	
+    	//obsluzna metoda(listener)na zmenu odpovedi (radiobutton)
     	toggleGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
 
     		public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
-    			
-    			
     			selectedAnswer = (RadioButton) newValue;
     			
     		}
 		});
     	
+    	// zacina naplnanie textov hodnotami danej otazky
     	questions = testDao.getAllMyQuestions(test.getId());
     	selectedQuestion = questions.get(0);
+    	
+    	// zobrazovanie v poradi dalsieho otazky toho testu do samostatnych "okienok"
     	manager.handleQuestion(selectedQuestion,firstAnswerRButton, 
     			secondAnswerRButton, thirdAnswerRButton,
     			fourthAnswerRButton, fifthAnswerRButton, questionText);
     	
+    	
+    	
     	nextQuestionButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
+				//ratanie spravnych odpovedi
 				if(manager.checkAnswer(selectedQuestion.getRightAnswer(), selectedAnswer )) {
 					rightAnswers++;
 				}
+				
+				//zvysuje sa cislo otazky (kontrola maximalneho poctu)
 				questionsCounter++;
 				if(questionsCounter == questions.size()) {
+					//uz koniec testu - vyhodnotenie, vratenie sa na scenu studena
 					Alert alert = new Alert(AlertType.INFORMATION);
 					alert.setTitle("Success");
 					alert.setHeaderText("Test finished");
@@ -154,6 +166,7 @@ public class TakingTestController {
 					stage.show();
 					return;
 				}
+				//ak sme nedovrsili poslednu otazku, vyberie sa nasledujuca
 				selectedQuestion = questions.get(questionsCounter);
 				manager.handleQuestion(selectedQuestion, firstAnswerRButton, 
 		    			secondAnswerRButton, thirdAnswerRButton,

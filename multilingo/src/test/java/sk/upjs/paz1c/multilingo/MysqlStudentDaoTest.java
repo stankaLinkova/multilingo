@@ -7,9 +7,11 @@ import java.time.LocalDate;
 import org.junit.jupiter.api.Test;
 
 import sk.upjs.paz1c.multilingo.entities.Course;
+import sk.upjs.paz1c.multilingo.entities.School;
 import sk.upjs.paz1c.multilingo.entities.Student;
 import sk.upjs.paz1c.multilingo.persistent.CourseDao;
 import sk.upjs.paz1c.multilingo.persistent.DaoFactory;
+import sk.upjs.paz1c.multilingo.persistent.SchoolDao;
 import sk.upjs.paz1c.multilingo.persistent.StudentDao;
 import sk.upjs.paz1c.multilingo.persistent.TestDao;
 
@@ -18,6 +20,7 @@ class MysqlStudentDaoTest {
 	private StudentDao studentDao = DaoFactory.INSTANCE.getStudentDao();
 	private CourseDao courseDao = DaoFactory.INSTANCE.getCourseDao();
 	private TestDao testDao = DaoFactory.INSTANCE.getTestDao();
+	private SchoolDao schoolDao = DaoFactory.INSTANCE.getSchoolDao();
 
 	@Test
 	void testGetAll() {
@@ -60,6 +63,15 @@ class MysqlStudentDaoTest {
 
 	@Test
 	void testGetMyCourses() {
+
+		School school = new School();
+		school.setName("GTA");
+		school.setAddress("Zbrojnicna 3,KE");
+		school.setEmail("gta@gta.sk");
+		school.setLogin("gta4");
+		school.setPassword("1234");
+		Long idSchool = schoolDao.save(school).getId();
+
 		Student student = new Student();
 		student.setName("Janko");
 		student.setSurname("Hrasko");
@@ -75,7 +87,7 @@ class MysqlStudentDaoTest {
 		course.setStartOfCourse(LocalDate.of(2018, 11, 5));
 		course.setEndOfCourse(LocalDate.of(2018, 12, 5));
 		course.setTimeOfLectures("16:30");
-		course.setSchoolId(1L);
+		course.setSchoolId(idSchool);
 		Long idCourse = courseDao.save(course).getId();
 
 		studentDao.joinTheCourse(student, course);
@@ -83,10 +95,20 @@ class MysqlStudentDaoTest {
 		assertTrue(studentDao.getMyCourses(id).size() > 0);
 		studentDao.delete(id);
 		courseDao.delete(idCourse);
+		schoolDao.delete(idSchool);
 	}
 
 	@Test
 	void testGetCompletedTests() {
+
+		School school = new School();
+		school.setName("GTA");
+		school.setAddress("Zbrojnicna 3,KE");
+		school.setEmail("gta@gta.sk");
+		school.setLogin("gta4");
+		school.setPassword("1234");
+		Long idSchool = schoolDao.save(school).getId();
+
 		Student student = new Student();
 		student.setName("Janko");
 		student.setSurname("Hrasko");
@@ -100,22 +122,31 @@ class MysqlStudentDaoTest {
 		test.setNumberOfQuestions(4);
 		test.setLanguage("German");
 		test.setLevel("C1");
-		test.setIdSchool(1L);
+		test.setIdSchool(idSchool);
 		test.setCreatedDate(LocalDate.of(2018, 11, 27));
 		Long idTest = testDao.save(test).getId();
 
-		
-		int before = studentDao.getCompletedTests(id).size(); 
+		int before = studentDao.getCompletedTests(id).size();
 		studentDao.doTheTest(student, test, LocalDate.of(2018, 11, 27), 30);
-		int after = studentDao.getCompletedTests(id).size(); 
-		
-		assertEquals(before,after-1);
+		int after = studentDao.getCompletedTests(id).size();
+
+		assertEquals(before, after - 1);
 		studentDao.delete(id);
 		testDao.delete(idTest);
+		schoolDao.delete(idSchool);
 	}
 
 	@Test
 	void testJoinTheCourse() {
+
+		School school = new School();
+		school.setName("GTA");
+		school.setAddress("Zbrojnicna 3,KE");
+		school.setEmail("gta@gta.sk");
+		school.setLogin("gta4");
+		school.setPassword("1234");
+		Long idSchool = schoolDao.save(school).getId();
+
 		Student student = new Student();
 		student.setName("Janko");
 		student.setSurname("Hrasko");
@@ -131,7 +162,7 @@ class MysqlStudentDaoTest {
 		course.setStartOfCourse(LocalDate.of(2018, 11, 5));
 		course.setEndOfCourse(LocalDate.of(2018, 12, 5));
 		course.setTimeOfLectures("16:30");
-		course.setSchoolId(1L);
+		course.setSchoolId(idSchool);
 		Long idCourse = courseDao.save(course).getId();
 
 		int beforeJoin = courseDao.getStudentsTakenTheCourse(idCourse).size();
@@ -140,6 +171,7 @@ class MysqlStudentDaoTest {
 		assertTrue(beforeJoin == afterJoin - 1);
 		studentDao.delete(idStudent);
 		courseDao.delete(idCourse);
+		schoolDao.delete(idSchool);
 	}
 
 	@Test
@@ -160,6 +192,14 @@ class MysqlStudentDaoTest {
 	@Test
 	void testDeleteCourse() {
 
+		School school = new School();
+		school.setName("GTA");
+		school.setAddress("Zbrojnicna 3,KE");
+		school.setEmail("gta@gta.sk");
+		school.setLogin("gta4");
+		school.setPassword("1234");
+		Long idSchool = schoolDao.save(school).getId();
+
 		Student student = new Student();
 		student.setName("Janko");
 		student.setSurname("Hrasko");
@@ -175,22 +215,31 @@ class MysqlStudentDaoTest {
 		course.setStartOfCourse(LocalDate.of(2018, 11, 5));
 		course.setEndOfCourse(LocalDate.of(2018, 12, 5));
 		course.setTimeOfLectures("16:30");
-		course.setSchoolId(1L);
+		course.setSchoolId(idSchool);
 		Long idCourse = courseDao.save(course).getId();
 		studentDao.joinTheCourse(student, course);
 
 		int beforeDelete = courseDao.getStudentsTakenTheCourse(idCourse).size();
 		studentDao.deleteCourse(idCourse);
 		int afterDelete = courseDao.getStudentsTakenTheCourse(idCourse).size();
-		assertEquals(beforeDelete,afterDelete + 1);
+		assertEquals(beforeDelete, afterDelete + 1);
 		studentDao.delete(idStudent);
 		courseDao.delete(idCourse);
+		schoolDao.delete(idSchool);
 
 	}
-	
+
 	@Test
 	void testDoTheTest() {
 		
+		School school = new School();
+		school.setName("GTA");
+		school.setAddress("Zbrojnicna 3,KE");
+		school.setEmail("gta@gta.sk");
+		school.setLogin("gta4");
+		school.setPassword("1234");
+		Long idSchool = schoolDao.save(school).getId();
+
 		Student student = new Student();
 		student.setName("Janko");
 		student.setSurname("Hrasko");
@@ -204,19 +253,19 @@ class MysqlStudentDaoTest {
 		test.setNumberOfQuestions(4);
 		test.setLanguage("German");
 		test.setLevel("C1");
-		test.setIdSchool(1L);
+		test.setIdSchool(idSchool);
 		test.setCreatedDate(LocalDate.of(2018, 11, 27));
 		Long idTest = testDao.save(test).getId();
 
 		int beforeDoing = studentDao.getCompletedTests(id).size();
-		
+
 		studentDao.doTheTest(student, test, LocalDate.of(2018, 11, 27), 30);
-		
+
 		int afterDoing = studentDao.getCompletedTests(id).size();
 
 		assertTrue(beforeDoing == afterDoing - 1);
 		studentDao.delete(id);
 		testDao.delete(idTest);
+		schoolDao.delete(idSchool);
 	}
 }
-

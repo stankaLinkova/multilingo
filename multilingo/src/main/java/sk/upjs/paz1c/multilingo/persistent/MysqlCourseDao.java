@@ -100,7 +100,7 @@ public class MysqlCourseDao implements CourseDao {
 	}
 
 
-	//TUTO METODU SOM SPRAVILA V SKOLE + PARAMETRE ZMEN V DAO COURSE "idCourse"
+	// vyuzivame pri vypisovani detailu kurzu
 	public List<Student> getStudentsTakenTheCourse(Long idCourse) {
 		String sql = "SELECT name, surname, email, idStudent FROM Student WHERE idStudent = "
 				+ "(SELECT Student_idStudent FROM Course_has_Student"

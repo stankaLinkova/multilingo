@@ -23,7 +23,7 @@ class MysqlSchoolDaoTest {
 		
 	@Test
 	void testGetAll() {
-		assertTrue(schoolDao.getAll().size() > 1);
+		assertTrue(schoolDao.getAll().size() > 0);
 	}
 	
 	@Test

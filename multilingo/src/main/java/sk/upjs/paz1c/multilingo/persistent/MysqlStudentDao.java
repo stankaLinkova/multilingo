@@ -27,7 +27,7 @@ public class MysqlStudentDao implements StudentDao {
 		this.jdbcTemplate = jdbcTemplate;
 
 	}
-
+	// pomocna pri testoch
 	public List<Student> getAll() {
 		String sql = "SELECT idStudent, name, surname, email, login, password " + "FROM Student";
 
@@ -80,6 +80,7 @@ public class MysqlStudentDao implements StudentDao {
 
 	}
 	
+	// ak sa chce student odhlasit z kurzu
 	public void deleteCourse(long id) {
 		String sql = "DELETE FROM Course_has_Student WHERE Course_idCourse = ?";
 		jdbcTemplate.update(sql, id);
@@ -87,6 +88,7 @@ public class MysqlStudentDao implements StudentDao {
 	}
 	
 
+	//na profil studenta
 	public List<Course> getMyCourses(long idStudent) {
 		String sql = "SELECT idCourse, language_taught, taught_in, level, start_of_course, end_of_course, "
 				+ "time_of_lectures, information, School_idSchool "
@@ -121,6 +123,7 @@ public class MysqlStudentDao implements StudentDao {
 		});
 	}
 
+	//na profil studenta
 	public List<String> getCompletedTests(long idStudent) {
 		String sql = "SELECT sht.taken, sht.result, t.language, t.level " + "FROM Student_has_Test as sht "
 				+ "JOIN Test as t ON t.idTest = sht.Test_idTest " + "WHERE sht.Student_idStudent = ? ";
@@ -140,13 +143,15 @@ public class MysqlStudentDao implements StudentDao {
 
 	}
 
+	// robenie testu, zapisuje sa do tabulky Student_has_test
 	public void doTheTest(Student student, Test test, LocalDate taken, int result) {
 		String sql = "INSERT INTO Student_has_Test (Student_idStudent, Test_idTest, taken, result) VALUES (?,?,?,?)";
 		Object[] parameters = new Object[] { student.getId(), test.getId(), taken, result };
 		int[] types = new int[] { Types.INTEGER, Types.INTEGER, Types.DATE, Types.INTEGER };
 		jdbcTemplate.update(sql, parameters, types);
 	}
-
+	
+	//student sa prihlasil na kurz, vztah zapisani do tabulky Course_has_Student
 	public void joinTheCourse(Student student, Course course) {
 		String sql = "INSERT INTO Course_has_Student (Course_idCourse, Student_idStudent) VALUES (?,?)";
 		Object[] parameters = new Object[] { course.getId(), student.getId() };
@@ -154,6 +159,7 @@ public class MysqlStudentDao implements StudentDao {
 		jdbcTemplate.update(sql, parameters, types);
 	}
 
+	//vyhladavanie konkretneho studenta pri prihlasovani
 	public Student getStudentByLogin(String login, String password) {
 		String sql = "SELECT idStudent, name, surname, email, login FROM Student WHERE login = ? and password = ?";
 		Object[] params = new Object[] { login, password };
