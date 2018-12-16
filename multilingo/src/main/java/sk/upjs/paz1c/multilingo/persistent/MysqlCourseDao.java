@@ -102,7 +102,7 @@ public class MysqlCourseDao implements CourseDao {
 
 	// vyuzivame pri vypisovani detailu kurzu
 	public List<Student> getStudentsTakenTheCourse(Long idCourse) {
-		String sql = "SELECT name, surname, email, idStudent FROM Student WHERE idStudent = "
+		String sql = "SELECT name, surname, email, idStudent FROM Student WHERE idStudent IN "
 				+ "(SELECT Student_idStudent FROM Course_has_Student"
 				+ " WHERE Course_idCourse = ? ) ";
 		return jdbcTemplate.query(sql, new Object[] { idCourse }, new RowMapper<Student>() {
