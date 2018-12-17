@@ -23,7 +23,16 @@ class MysqlSchoolDaoTest {
 		
 	@Test
 	void testGetAll() {
+		School school = new School();
+		school.setName("GTA");
+		school.setAddress("Zbrojnicna 3,KE");
+		school.setEmail("gta@gta.sk");
+		school.setLogin("gta4");
+		school.setPassword("1234");
+		Long id = schoolDao.save(school).getId();
+		
 		assertTrue(schoolDao.getAll().size() > 0);
+		schoolDao.delete(id);
 	}
 	
 	@Test

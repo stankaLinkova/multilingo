@@ -24,7 +24,16 @@ class MysqlStudentDaoTest {
 
 	@Test
 	void testGetAll() {
+		Student student = new Student();
+		student.setName("Janko");
+		student.setSurname("Hrasko");
+		student.setEmail("jhrasko@gmail.com");
+		student.setLogin("hraskoj5");
+		student.setPassword("1235");
+		Long id = studentDao.save(student).getId();
+		
 		assertNotNull(studentDao.getAll());
+		studentDao.delete(id);
 	}
 
 	@Test

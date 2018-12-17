@@ -1,4 +1,5 @@
 package sk.upjs.paz1c.multilingo;
+
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -35,53 +36,53 @@ public class ProfileStudentController {
 	private String selectedTest;
 	private CourseDao courseDao = DaoFactory.INSTANCE.getCourseDao();
 	private TestDao testDao = DaoFactory.INSTANCE.getTestDao();
-    
+
 	@FXML
-    private ListView<Course> showCoursesListView;
+	private ListView<Course> showCoursesListView;
 
-    @FXML
-    private Button showProfileButton;
+	@FXML
+	private Button showProfileButton;
 
-    @FXML
-    private Text emailStudentText;
+	@FXML
+	private Text emailStudentText;
 
-    @FXML
-    private Button logoutButton;
+	@FXML
+	private Button logoutButton;
 
-    @FXML
-    private ListView<String> showTestsListView;
+	@FXML
+	private ListView<String> showTestsListView;
 
-    @FXML
-    private Text loginStudentText;
+	@FXML
+	private Text loginStudentText;
 
-    @FXML
-    private Text nameSurnameStudentText;
+	@FXML
+	private Text nameSurnameStudentText;
 
-    @FXML
-    private Button detailCourseButton;
-    
-    @FXML
-    private Button showCoursesButton;
+	@FXML
+	private Button detailCourseButton;
 
-    @FXML
-    private Button removeCourseButton;
+	@FXML
+	private Button showCoursesButton;
 
-    @FXML
-    private Button showTestsButton;
+	@FXML
+	private Button removeCourseButton;
 
-    private Student student;
-    
-    public ProfileStudentController(Student student) {
+	@FXML
+	private Button showTestsButton;
+
+	private Student student;
+
+	public ProfileStudentController(Student student) {
 		this.student = student;
 	}
 
 	@FXML
-    void initialize() {
-		
+	void initialize() {
+
 		loginStudentText.setText(student.getLogin());
 		emailStudentText.setText(student.getEmail());
-		nameSurnameStudentText.setText(student.getName() +" "+ student.getSurname());
-		
+		nameSurnameStudentText.setText(student.getName() + " " + student.getSurname());
+
 		courses = FXCollections.observableArrayList(studentDao.getMyCourses(student.getId()));
 		showCoursesListView.setItems(courses);
 		showCoursesListView.getSelectionModel().selectFirst();
@@ -89,35 +90,27 @@ public class ProfileStudentController {
 		showCoursesListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Course>() {
 
 			public void changed(ObservableValue<? extends Course> observable, Course oldValue, Course newValue) {
-				selectedCourse = newValue;								
+				selectedCourse = newValue;
 			}
 		});
-		
+
 		tests = FXCollections.observableArrayList(studentDao.getCompletedTests(student.getId()));
 		showTestsListView.setItems(tests);
-		int size = tests.size();
-//		System.out.println(size);
-//		System.out.println(studentDao.getCompletedTests(student.getId()).get(0));
-//		String[] stringArray = Arrays.copyOf(studentDao.getCompletedTests(student.getId()).get(0), size, String[].class);
-//		SysString[] stringArray = Arrays.copyOf(studentDao.getCompletedTests(student.getId()).get(0), size, String[].class);
-//		tem.out.println(stringArray);
 		showTestsListView.getSelectionModel().selectFirst();
 		selectedTest = showTestsListView.getSelectionModel().getSelectedItem();
 		showTestsListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
 
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				if(newValue ==null) {
+				if (newValue == null) {
 					selectedTest = oldValue;
 				} else {
 					selectedTest = newValue;
 				}
-				
+
 			}
 		});
-		
-		
-		
-    	showCoursesButton.setOnAction(new EventHandler<ActionEvent>() {
+
+		showCoursesButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
 				CoursesStudentController coursesStudentController = new CoursesStudentController(student);
@@ -136,8 +129,8 @@ public class ProfileStudentController {
 				stage.show();
 			}
 		});
-    	
-    	showTestsButton.setOnAction(new EventHandler<ActionEvent>() {
+
+		showTestsButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
 				TestsStudentController testsStudentController = new TestsStudentController(student);
@@ -156,8 +149,8 @@ public class ProfileStudentController {
 				stage.show();
 			}
 		});
-    	
-    	logoutButton.setOnAction(new EventHandler<ActionEvent>() {
+
+		logoutButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
 				SignInController signInController = new SignInController();
@@ -176,34 +169,32 @@ public class ProfileStudentController {
 				stage.show();
 			}
 		});
-    	
-    	detailCourseButton.setOnAction(new EventHandler<ActionEvent>() {
+
+		detailCourseButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
-				CourseDetailController courseDetailController = new CourseDetailController(selectedCourse);       
+				CourseDetailController courseDetailController = new CourseDetailController(selectedCourse);
 				showModalWindow(courseDetailController, "course_detail_scene.fxml");
 			}
 		});
-    	
-    	//TODO odstran aj studenta z db kurzov a testov
-    	removeCourseButton.setOnAction(new EventHandler<ActionEvent>() {
+
+		removeCourseButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
 				showCoursesListView.getItems().remove(selectedCourse);
 				studentDao.deleteCourse(student.getId());
-						
-				
+
 			}
 		});
 	}
-    
-    private void showModalWindow(Object controller, String fxml) {
+
+	private void showModalWindow(Object controller, String fxml) {
 		try {
-			FXMLLoader fxmlLoader = new	FXMLLoader(getClass().getResource(fxml));
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxml));
 			fxmlLoader.setController(controller);
-			Parent rootPane	= fxmlLoader.load();
-			Scene scene	= new Scene(rootPane);
-			
+			Parent rootPane = fxmlLoader.load();
+			Scene scene = new Scene(rootPane);
+
 			Stage dialog = new Stage();
 			dialog.setScene(scene);
 			dialog.initModality(Modality.APPLICATION_MODAL);

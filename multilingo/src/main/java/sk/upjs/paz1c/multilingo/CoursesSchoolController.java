@@ -1,4 +1,5 @@
 package sk.upjs.paz1c.multilingo;
+
 import java.io.IOException;
 
 import javafx.beans.value.ChangeListener;
@@ -25,57 +26,54 @@ import sk.upjs.paz1c.multilingo.persistent.TestDao;
 
 @SuppressWarnings("restriction")
 public class CoursesSchoolController {
-	
+
 	private SchoolDao schoolDao = DaoFactory.INSTANCE.getSchoolDao();
 	private ObservableList<Course> courses;
 	private Course selectedCourse;
 	private CourseDao courseDao = DaoFactory.INSTANCE.getCourseDao();
-	
 
 	@FXML
-    private Button showTestsButton;
+	private Button showTestsButton;
 
-    @FXML
-    private Button logoutButton;
+	@FXML
+	private Button logoutButton;
 
-    @FXML
-    private Button createCourseButton;
+	@FXML
+	private Button createCourseButton;
 
-    @FXML
-    private Button showProfileButton;
+	@FXML
+	private Button showProfileButton;
 
-    @FXML
-    private Button showCoursesButton;
+	@FXML
+	private Button showCoursesButton;
 
-    @FXML
-    private ListView<Course> coursesListView;
+	@FXML
+	private ListView<Course> coursesListView;
 
-    @FXML
-    private Button detailCourseButton;
-    
-    private School school;
-    
-    public CoursesSchoolController(School school) {
+	@FXML
+	private Button detailCourseButton;
+
+	private School school;
+
+	public CoursesSchoolController(School school) {
 		this.school = school;
 	}
 
-    @FXML
-    void initialize() {
-    	
-    	
-    	courses = FXCollections.observableArrayList(courseDao.getAll());
+	@FXML
+	void initialize() {
+
+		courses = FXCollections.observableArrayList(courseDao.getAll());
 		coursesListView.setItems(courses);
 		coursesListView.getSelectionModel().selectFirst();
 		selectedCourse = coursesListView.getSelectionModel().getSelectedItem();
 		coursesListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Course>() {
 
 			public void changed(ObservableValue<? extends Course> observable, Course oldValue, Course newValue) {
-				selectedCourse = newValue;								
+				selectedCourse = newValue;
 			}
 		});
-    	
-    	
-    	showProfileButton.setOnAction(new EventHandler<ActionEvent>() {
+
+		showProfileButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
 				ProfileSchoolController profileSchoolController = new ProfileSchoolController(school);
@@ -94,8 +92,8 @@ public class CoursesSchoolController {
 				stage.show();
 			}
 		});
-    	
-    	showTestsButton.setOnAction(new EventHandler<ActionEvent>() {
+
+		showTestsButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
 				TestsSchoolController testsSchoolController = new TestsSchoolController(school);
@@ -114,8 +112,8 @@ public class CoursesSchoolController {
 				stage.show();
 			}
 		});
-    	
-    	logoutButton.setOnAction(new EventHandler<ActionEvent>() {
+
+		logoutButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
 				SignInController signInController = new SignInController();
@@ -134,32 +132,32 @@ public class CoursesSchoolController {
 				stage.show();
 			}
 		});
-    	
-    	createCourseButton.setOnAction(new EventHandler<ActionEvent>() {
+
+		createCourseButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
-				CreateCourseController createCourseController = new CreateCourseController(school);       
+				CreateCourseController createCourseController = new CreateCourseController(school);
 				showModalWindow(createCourseController, "create_course_scene.fxml");
 			}
 		});
-    	
-    	detailCourseButton.setOnAction(new EventHandler<ActionEvent>() {
 
-    		public void handle(ActionEvent event) {
-				CourseDetailController courseDetailController = new CourseDetailController(selectedCourse);       
+		detailCourseButton.setOnAction(new EventHandler<ActionEvent>() {
+
+			public void handle(ActionEvent event) {
+				CourseDetailController courseDetailController = new CourseDetailController(selectedCourse);
 				showModalWindow(courseDetailController, "course_detail_scene.fxml");
-				
+
 			}
 		});
-    }
-    
-    private void showModalWindow(Object controller, String fxml) {
+	}
+
+	private void showModalWindow(Object controller, String fxml) {
 		try {
-			FXMLLoader fxmlLoader = new	FXMLLoader(getClass().getResource(fxml));
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxml));
 			fxmlLoader.setController(controller);
-			Parent rootPane	= fxmlLoader.load();
-			Scene scene	= new Scene(rootPane);
-			
+			Parent rootPane = fxmlLoader.load();
+			Scene scene = new Scene(rootPane);
+
 			Stage dialog = new Stage();
 			dialog.setScene(scene);
 			dialog.initModality(Modality.APPLICATION_MODAL);

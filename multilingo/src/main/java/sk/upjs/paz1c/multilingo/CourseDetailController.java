@@ -1,4 +1,5 @@
 package sk.upjs.paz1c.multilingo;
+
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -32,60 +33,60 @@ public class CourseDetailController {
 
 	private CourseDao courseDao = DaoFactory.INSTANCE.getCourseDao();
 	private ObservableList<Student> students;
-	
+
 	@FXML
-    private Text timeOfLectureText;
+	private Text timeOfLectureText;
 
-    @FXML
-    private ListView<Student> studentsListView;
+	@FXML
+	private ListView<Student> studentsListView;
 
-    @FXML
-    private Text levelText;
+	@FXML
+	private Text levelText;
 
-    @FXML
-    private Text startOfCourseText;
+	@FXML
+	private Text startOfCourseText;
 
+	@FXML
+	private Text languageTaughtText;
 
-    @FXML
-    private Text languageTaughtText;
+	@FXML
+	private Text taughtInText;
 
-    @FXML
-    private Text taughtInText;
+	@FXML
+	private Text endOfCourseText;
 
-    @FXML
-    private Text endOfCourseText;
+	@FXML
+	private TextArea informationText;
 
-    @FXML
-    private TextArea informationText;
-    
-    private Course course;
+	private Course course;
 
-    public CourseDetailController(Course course) {
+	public CourseDetailController(Course course) {
 		this.course = course;
 	}
 
 	@FXML
-    void initialize() {
-		
-		
-		//iba prepojenie s textfieldami a hodnotami kurzu
+	void initialize() {
+
+		// iba prepojenie s textfieldami a hodnotami kurzu
 		timeOfLectureText.setText(course.getTimeOfLectures());
 		levelText.setText(course.getLevel());
-		
+
+		// Zdroj :
+		// https://stackoverflow.com/questions/28177370/how-to-format-localdate-to-string
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		String formattedDateTime = course.getStartOfCourse().format(formatter);
 		String formattedDateTime2 = course.getEndOfCourse().format(formatter);
-		
+
 		startOfCourseText.setText(formattedDateTime);
 		endOfCourseText.setText(formattedDateTime2);
 		languageTaughtText.setText(course.getLanguageTaught());
 		taughtInText.setText(course.getTaughtIn());
 		informationText.setText(course.getInformation());
-		
-		//vypisanie studentov
+		informationText.setEditable(false);
+
+		// vypisanie studentov
 		students = FXCollections.observableArrayList(courseDao.getStudentsTakenTheCourse(course.getId()));
 		studentsListView.setItems(students);
-		
-    
-    }
+
+	}
 }

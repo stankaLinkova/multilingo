@@ -78,6 +78,17 @@ public class CreateCourseController {
 
     		public void handle(ActionEvent event) {
 				Course course = courseModel.getCourse();
+				if(courseModel.getLanguageTaught() == null || courseModel.getTaughtIn() == null ||
+						courseModel.getLevel() == null || courseModel.getIdSchool() == null  ||
+						courseModel.getTimeOfLectures() == null || courseModel.getEndOfCourse() == null ||
+						courseModel.getStartOfCourse() == null) {
+					Alert alert = new Alert(Alert.AlertType.WARNING);
+					alert.setTitle("Warning");
+					alert.setHeaderText("Wrong filling");
+					alert.setContentText("You have to fill every field or insert correct date.");
+					alert.showAndWait();
+					return;
+				}
 				courseDao.save(course);
 				Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 				alert.setTitle("Success");

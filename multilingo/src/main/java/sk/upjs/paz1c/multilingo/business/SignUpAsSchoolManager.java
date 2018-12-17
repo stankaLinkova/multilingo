@@ -16,7 +16,7 @@ public class SignUpAsSchoolManager {
 	public SignUpAsSchoolManager() {
 	}
 
-	// TODO testy
+	
 	public boolean canCreate(School school, String confirmationPassword) {
 		return correctPasswords(confirmationPassword, school) && correctLogin(school) && correctFilling(school);
 	}
